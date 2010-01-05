@@ -193,7 +193,7 @@ class DinDateHelper
 
         if ( sfConfig::get( 'sf_i18n' ) )
         {
-            return __( 'datediff.' . $string, $params );
+            return DinI18nHelper::__( 'datediff.' . $string, $params );
         }
         return strtr( $string, $parameters );
 
