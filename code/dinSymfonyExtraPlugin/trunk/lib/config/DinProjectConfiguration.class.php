@@ -23,8 +23,8 @@ class DinProjectConfiguration extends sfProjectConfiguration
     public function loadPlugins()
     {
 
-        $configDir = $this->getRootDir() . '/lib/config';
-        require_once $configDir . '/DinPluginConfiguration.class.php';
+        $rootDir = $this->getRootDir();
+        require_once $rootDir . '/plugins/dinSymfonyExtraPlugin/lib/config/DinPluginConfiguration.class.php';
         foreach ( $this->getPluginPaths() as $path )
         {
 
@@ -34,7 +34,7 @@ class DinProjectConfiguration extends sfProjectConfiguration
             }
             $class = ucfirst( $oldClass = $plugin . 'Configuration' );
 
-            $file = sprintf( '%s/%s/%s.class.php', $configDir, $plugin, $class );
+            $file = sprintf( '%s/%s/%s.class.php', $rootDir . '/lib/config', $plugin, $class );
             $oldFile = sprintf( '%s/config/%s.class.php', $path, $oldClass );
             $pluginFile = sprintf( '%s/config/%s.class.php', $path, 'Plugin' . $class );
             if ( is_readable( $pluginFile ) )
