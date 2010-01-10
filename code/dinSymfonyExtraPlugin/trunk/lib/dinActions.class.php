@@ -92,6 +92,28 @@ class dinActions extends sfActions
 
 
     /**
+     * Render text if condition, else redirect
+     * 
+     * @param   boolean $condition  Condition
+     * @param   string  $text       Text for render
+     * @param   string  $url        Uri or url
+     * @return  string  sfView name constant or partial
+     * @author  relo_san
+     * @since   january 10, 2010
+     */
+    public function renderTextThanRedirect( $condition, $text, $url )
+    {
+
+        if ( $condition )
+        {
+            return $this->renderText( $text );
+        }
+        $this->redirect( $url );
+
+    } // dinActions::renderTextIf()
+
+
+    /**
      * Get referer info
      * 
      * @param   string  $param      Request referer parameter [optional]
