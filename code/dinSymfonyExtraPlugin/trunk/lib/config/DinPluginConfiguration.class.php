@@ -32,15 +32,207 @@ class DinPluginConfiguration extends sfPluginConfiguration
 
         $this->options['defaultLanguage'] = sfConfig::get( 'sf_default_culture' );
         $this->options['activeLanguages'] = array( 'ru', 'en' );
-        $this->options['enableI18n'] = true;
-        $this->options['enableUri'] = true;
-        $this->options['enableI18nUri'] = false;
+        $this->options['disabledColumns'] = array();
+        $this->options['disabledModels'] = array();
+        $this->options['disabledBehaviors'] = array();
+        $this->options['disabledRelations'] = array();
+        $this->options['i18nDisabledColumns'] = array();
         $this->options['cacheData'] = true;
         $this->options['cacheChoices'] = true;
         $this->options['cacheTTL'] = 157680000;
         $this->options['cachePath'] = sfConfig::get( 'sf_cache_dir' ) . '/data';
 
+        
+
     } // DinPluginConfiguration::initialize()
+
+
+    /**
+     * Get disabled columns
+     * 
+     * @param   string  $model  Model name [optional]
+     * @return  array   Disabled columns
+     * @author  relo_san
+     * @since   january 12, 2010
+     */
+    public function getDisabledColumns( $model = null )
+    {
+
+        if ( !is_null( $model ) && isset( $this->options['models'][$model]['disabledColumns'] ) )
+        {
+            return array_merge(
+                $this->options['disabledColumns'],
+                $this->options['models'][$model]['disabledColumns']
+            );
+        }
+        return $this->options['disabledColumns'];
+
+    } // DinPluginConfiguration::getDisabledColumns()
+
+
+    /**
+     * Get disabled models
+     * 
+     * @return  array   Disabled models
+     * @author  relo_san
+     * @since   january 12, 2010
+     */
+    public function getDisabledModels()
+    {
+
+        return $this->options['disabledModels'];
+
+    } // DinPluginConfiguration::getDisabledModels()
+
+
+    /**
+     * Get disabled behaviors
+     * 
+     * @param   string  $model  Model name [optional]
+     * @return  array   Disabled behaviors
+     * @author  relo_san
+     * @since   january 12, 2010
+     */
+    public function getDisabledBehaviors( $model = null )
+    {
+
+        if ( !is_null( $model ) && isset( $this->options['models'][$model]['disabledBehaviors'] ) )
+        {
+            return array_merge(
+                $this->options['disabledBehaviors'],
+                $this->options['models'][$model]['disabledBehaviors']
+            );
+        }
+        return $this->options['disabledBehaviors'];
+
+    } // DinPluginConfiguration::getDisabledBehaviors()
+
+
+    /**
+     * Get disabled relations
+     * 
+     * @param   string  $model  Model name [optional]
+     * @return  array   Disabled relations
+     * @author  relo_san
+     * @since   january 12, 2010
+     */
+    public function getDisabledRelations( $model = null )
+    {
+
+        if ( !is_null( $model ) && isset( $this->options['models'][$model]['disabledRelations'] ) )
+        {
+            return array_merge(
+                $this->options['disabledRelations'],
+                $this->options['models'][$model]['disabledRelations']
+            );
+        }
+        return $this->options['disabledRelations'];
+
+    } // DinPluginConfiguration::getDisabledRelations()
+
+
+    /**
+     * Get behavior options
+     * 
+     * @param   string  $model      Model name
+     * @param   string  $behavior   Behavior name
+     * @param   string  $options    Behavior options [optional]
+     * @return  array   Behavior options
+     * @author  relo_san
+     * @since   january 12, 2010
+     */
+    public function getBehaviorOptions( $model, $behavior, $options = array() )
+    {
+
+        if ( in_array( $behavior, array( 'I18n', 'I18nMod' ) ) )
+        {
+            if ( isset( $this->options['models'][$model]['I18nColumns'] ) )
+            {
+                $options['fields'] = $this->options['models'][$model]['I18nColumns'];
+                if ( isset( $options['unique'] ) )
+                {
+                    foreach ( $options['unique'] as $k => $column )
+                    {
+                        if ( !in_array( $column, $options['fields'] ) )
+                        {
+                            unset( $options['unique'][$k] );
+                        }
+                    }
+                }
+            }
+            elseif ( isset( $this->options['models'][$model]['i18nDisabledColumns'] ) )
+            {
+                $disabled = array_merge(
+                    $this->options['i18nDisabledColumns'],
+                    $this->options['models'][$model]['i18nDisabledColumns']
+                );
+                foreach ( $fields as $k => $column )
+                {
+                    if ( isset( $disabled[$column] ) )
+                    {
+                        unset( $options['fields'][$k] );
+                    }
+                    if ( isset( $options['unique'][$k] ) )
+                    {
+                        if ( isset( $disabled[$options['unique'][$k]] ) )
+                        {
+                            unset( $options['unique'][$k] );
+                        }
+                    }
+                }
+            }
+        }
+
+        return $options;
+
+    } // DinPluginConfiguration::getBehaviorOptions()
+
+
+    /**
+     * Check if model enabled
+     * 
+     * @param   string  $model  Model name
+     * @return  boolean Is model enabled
+     * @author  relo_san
+     * @since   january 12, 2010
+     */
+    public function isModel( $model )
+    {
+
+        return !isset( $this->options['disabledModels'][$model] );
+
+    } // DinPluginConfiguration::isModel()
+
+
+    /**
+     * Switch model
+     * 
+     * @param   string  $model      Model name
+     * @param   boolean $isEnabled  Is enable model
+     * @return  object  Current plugin configuration object
+     * @author  relo_san
+     * @since   january 12, 2010
+     */
+    public function setModel( $model, $isEnable )
+    {
+
+        if ( $isEnable )
+        {
+            if ( isset( $this->options['disabledModels'][$model] ) )
+            {
+                unset( $this->options['disabledModels'][$model] );
+            }
+            if ( isset( $this->options['disabledRelations'][$model] ) )
+            {
+                unset( $this->options['disabledRelations'][$model] );
+            }
+            return $this;
+        }
+        $this->options['disabledModels'][$model] = true;
+        $this->options['disabledRelations'][$model] = true;
+        return $this;
+
+    } // DinPluginConfiguration::setModel()
 
 
     /**
@@ -54,11 +246,12 @@ class DinPluginConfiguration extends sfPluginConfiguration
     public function isI18n( $model = null )
     {
 
-        if ( !is_null( $model ) && isset( $this->options['models'][$model]['enableI18n'] ) )
+        if ( !is_null( $model )
+            && isset( $this->options['models'][$model]['disabledBehaviors']['I18nMod'] ) )
         {
-            return $this->options['models'][$model]['enableI18n'];
+            return false;
         }
-        return $this->options['enableI18n'];
+        return !isset( $this->options['disabledBehaviors']['I18nMod'] );
 
     } // DinPluginConfiguration::isI18n()
 
@@ -75,107 +268,159 @@ class DinPluginConfiguration extends sfPluginConfiguration
     public function setI18n( $isI18n, $model = null )
     {
 
-        if ( !is_null( $model ) )
+        if ( $isI18n )
         {
-            $this->options['models'][$model]['enableI18n'] = (boolean) $isI18n;
+            if ( !is_null( $model ) )
+            {
+                if ( isset( $this->options['models'][$model]['disabledBehaviors']['I18nMod'] ) )
+                {
+                    unset( $this->options['models'][$model]['disabledBehaviors']['I18nMod'] );
+                }
+                return $this;
+            }
+            if ( $this->options['disabledBehaviors']['I18nMod'] )
+            {
+                unset( $this->options['disabledBehaviors']['I18nMod'] );
+            }
             return $this;
         }
-        $this->options['enableI18n'] = (boolean) $isI18n;
+
+        if ( !is_null( $model ) )
+        {
+            $this->options['models'][$model]['disabledBehaviors']['I18nMod'] = true;
+            return $this;
+        }
+        $this->options['disabledBehaviors']['I18nMod'] = true;
         return $this;
 
     } // DinPluginConfiguration::setI18n()
 
 
     /**
-     * Check if uri field enabled for plugin or model
+     * Check if column enabled for plugin or model
      * 
+     * @param   string  $column Column name
      * @param   string  $model  Model name [optional]
-     * @return  boolean Is uri field enabled
+     * @return  boolean Is column enabled
      * @author  relo_san
-     * @since   december 25, 2009
+     * @since   january 12, 2010
      */
-    public function isUri( $model = null )
+    public function isColumn( $column, $model = null )
     {
 
-        if ( !is_null( $model ) && isset( $this->options['models'][$model]['enableUri'] ) )
+        if ( !is_null( $model )
+            && isset( $this->options['models'][$model]['disabledColumns'][$column] ) )
         {
-            return $this->options['models'][$model]['enableUri'];
+            return false;
         }
-        return $this->options['enableUri'];
+        return !isset( $this->options['disabledColumns'][$column] );
 
-    } // DinPluginConfiguration::isUri()
+    } // DinPluginConfiguration::isColumn()
 
 
     /**
-     * Switch uri field for plugin or model
+     * Switch column for plugin or model
      * 
-     * @param   boolean $isUri  Is enable uri field
-     * @param   string  $model  Model name [optional]
+     * @param   string  $column     Column name
+     * @param   boolean $isColumn   Is enable column
+     * @param   string  $model      Model name [optional]
      * @return  object  Current plugin configuration object
      * @author  relo_san
-     * @since   december 25, 2009
+     * @since   january 12, 2010
      */
-    public function setUri( $isUri, $model = null )
+    public function setColumn( $column, $isColumn, $model = null )
     {
 
-        if ( !is_null( $model ) )
+        if ( $isColumn )
         {
-            $this->options['models'][$model]['enableUri'] = (boolean) $isUri;
+            if ( !is_null( $model ) )
+            {
+                if ( isset( $this->options['models'][$model]['disabledColumns'][$column] ) )
+                {
+                    unset( $this->options['models'][$model]['disabledColumns'][$column] );
+                }
+                return $this;
+            }
+            if ( $this->options['disabledColumns'][$column] )
+            {
+                unset( $this->options['disabledColumns'][$column] );
+            }
             return $this;
         }
-        $this->options['enableUri'] = (boolean) $isUri;
-        return $this;
-
-    } // DinPluginConfiguration::setUri()
-
-
-    /**
-     * Check if translations for uri field enabled for plugin or model
-     * 
-     * @param   string  $model  Model name [optional]
-     * @return  boolean Is uri field enabled
-     * @author  relo_san
-     * @since   december 25, 2009
-     */
-    public function isTransUri( $model = null )
-    {
 
         if ( !is_null( $model ) )
         {
-            return $this->isI18n( $model )
-                && $this->isUri( $model )
-                && ( isset( $this->options['models'][$model]['enableI18nUri'] )
-                    ? $this->options['models'][$model]['enableI18nUri']
-                    : $this->options['enableI18nUri'] );
+            $this->options['models'][$model]['disabledColumns'][$column] = true;
+            return $this;
         }
-        return $this->options['enableI18n']
-            && $this->options['enableUri']
-            && $this->options['enableI18nUri'];
+        $this->options['disabledColumns'][$column] = true;
+        return $this;
 
-    } // DinPluginConfiguration::isTransUri()
+    } // DinPluginConfiguration::setColumn()
 
 
     /**
-     * Switch translations for uri field for plugin or model
+     * Check if translations for column enabled for plugin or model
      * 
-     * @param   boolean $isTransUri Is enable translations for uri field
+     * @param   string  $column     Column name
      * @param   string  $model  Model name [optional]
+     * @return  boolean Is translation for column enabled
+     * @author  relo_san
+     * @since   january 12, 2010
+     */
+    public function isTransColumn( $column, $model = null )
+    {
+
+        if ( !is_null( $model )
+            && isset( $this->options['models'][$model]['i18nDisabledColumns'][$column] ) )
+        {
+            return false;
+        }
+        return !isset( $this->options['i18nDisabledColumns'][$column] )
+            && $this->isI18n( $model ) && $this->isColumn( $column, $model );
+
+    } // DinPluginConfiguration::isTransColumn()
+
+
+    /**
+     * Switch translations for column for plugin or model
+     * 
+     * @param   string  $column         Column name
+     * @param   boolean $isTransColumn  Is enable translations for column
+     * @param   string  $model          Model name [optional]
      * @return  object  Current plugin configuration object
      * @author  relo_san
-     * @since   december 25, 2009
+     * @since   january 12, 2010
      */
-    public function setTransUri( $isTransUri, $model = null )
+    public function setTransColumn( $column, $isTransColumn, $model = null )
     {
+
+        if ( $isColumn )
+        {
+            if ( !is_null( $model ) )
+            {
+                if ( isset( $this->options['models'][$model]['i18nDisabledColumns'][$column] ) )
+                {
+                    unset( $this->options['models'][$model]['i18nDisabledColumns'][$column] );
+                }
+                return $this;
+            }
+            if ( $this->options['i18nDisabledColumns'][$column] )
+            {
+                unset( $this->options['i18nDisabledColumns'][$column] );
+            }
+            return $this;
+        }
 
         if ( !is_null( $model ) )
         {
-            $this->options['models'][$model]['enableI18nUri'] = (boolean) $isTransUri;
+            $this->options['models'][$model]['i18nDisabledColumns'][$column] = true;
             return $this;
         }
-        $this->options['enableI18nUri'] = (boolean) $isTransUri;
+        $this->options['i18nDisabledColumns'][$column] = true;
         return $this;
 
-    } // DinPluginConfiguration::setTransUri()
+    } // DinPluginConfiguration::setTransColumn()
 
 
     /**
