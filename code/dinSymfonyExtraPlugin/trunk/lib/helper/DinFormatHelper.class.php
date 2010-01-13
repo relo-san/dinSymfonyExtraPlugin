@@ -29,6 +29,12 @@ class DinFormatHelper
     /**
      * Soft cutting for string
      * 
+     * @param   string  $string     Source string
+     * @param   integer $soft       Soft cutting position
+     * @param   integer $hard       Hard cutting position
+     * @param   integer $strategy   Cutting strategy [optional]
+     * @param   boolean $strip      Strip tags in source [optional]
+     * @param   string  $encoding   Source encoding [optional]
      * @return  string  Cutted string
      * @author  relo_san
      * @since   january 13, 2010
