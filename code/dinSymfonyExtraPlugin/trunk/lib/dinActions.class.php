@@ -9,7 +9,7 @@
  */
 
 /**
- * dinActions
+ * Base actions class
  * 
  * @package     dinSymfonyExtraPlugin.lib
  * @signed      5
