@@ -25,6 +25,12 @@ class DinFormatHelper
     const CUT_STRATEGY_MIN = 1;
     const CUT_STRATEGY_MAX = 2;
 
+    const ESC_ENTITIES = 1;
+    const ESC_SPECIALCHARS = 2;
+    const ESC_JS = 3;
+    const ESC_JS_NO_ENTITIES = 4;
+    const ESC_RAW = 5;
+
 
     /**
      * Soft cutting for string
@@ -67,6 +73,42 @@ class DinFormatHelper
         return mb_substr( $string, 0, $pos, $encoding );
 
     } // DinFormatHelper::softCut()
+
+
+    /**
+     * Escape string
+     * 
+     * @param   string  $string     Source string
+     * @param   integer $escaping   Escaping type [optional]
+     * @return  string  Escaped string
+     * @author  relo_san
+     * @since   january 16, 2010
+     */
+    static public function escape( $string, $escaping = self::ESC_SPECIALCHARS )
+    {
+
+        switch ( $escaping )
+        {
+            case 1:
+                return is_string( $string )
+                    ? htmlentities( $string, ENT_QUOTES, sfConfig::get( 'sf_charset' ) ) : $string;
+                break;
+            case 2:
+                return is_string( $string )
+                    ? htmlspecialchars( $string, ENT_QUOTES, sfConfig::get( 'sf_charset' ) ) : $string;
+                break;
+            case 3:
+                return str_replace( array( "\\", "\n", "\r", "\"", "'" ),
+                     array( "\\\\", "\\n", "\\r", "\\\"", "\\'" ), esc_entities( $string ) );
+                break;
+            case 4:
+                return str_replace( array( "\\", "\n", "\r", "\"", "'" ),
+                     array( "\\\\", "\\n", "\\r", "\\\"", "\\'" ), $string );
+            default:
+                return $string;
+        }
+
+    } // DinFormatHelper::escape()
 
 } // DinFormatHelper
 
