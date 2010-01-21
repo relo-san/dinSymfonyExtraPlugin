@@ -321,7 +321,7 @@ class DinAssetHelper
         $options = array_merge( array(
             'type' => 'text/css', 'rel' => 'stylesheet', 'media' => 'screen', 'href' => $source
         ), $options );
-        $tag = DinTagHelper::tag( 'script', $options );
+        $tag = DinTagHelper::tag( 'link', $options );
         return $condition ? DinTagHelper::cc( $condition, $tag ) : $tag;
 
     } // DinAssetHelper::cssTag()
