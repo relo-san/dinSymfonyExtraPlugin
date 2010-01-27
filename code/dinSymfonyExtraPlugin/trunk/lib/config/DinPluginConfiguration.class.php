@@ -26,7 +26,15 @@ class DinPluginConfiguration extends sfPluginConfiguration
      * @var array
      */
     protected
-        $options = array();
+        $options = array(
+            'activeLanguages'       => array( 'en' ),
+            'defaultLanguage'       => 'en',
+            'disabledModels'        => array(),
+            'disabledColumns'       => array(),
+            'disabledBehaviors'     => array(),
+            'disabledRelations'     => array(),
+            'i18nDisabledColumns'   => array()
+        );
 
     /**
      * Initialize plugin configuration
@@ -40,17 +48,11 @@ class DinPluginConfiguration extends sfPluginConfiguration
 
         $this->options['defaultLanguage'] = sfConfig::get( 'sf_default_culture' );
         $this->options['activeLanguages'] = array( 'ru', 'en' );
-        $this->options['disabledColumns'] = array();
-        $this->options['disabledModels'] = array();
-        $this->options['disabledBehaviors'] = array();
-        $this->options['disabledRelations'] = array();
-        $this->options['i18nDisabledColumns'] = array();
         $this->options['cacheData'] = true;
         $this->options['cacheChoices'] = true;
         $this->options['cacheTTL'] = 157680000;
         $this->options['cachePath'] = sfConfig::get( 'sf_cache_dir' ) . '/data';
-
-        
+        $this->setTransColumn( 'uri', false );
 
     } // DinPluginConfiguration::initialize()
 
@@ -168,13 +170,17 @@ class DinPluginConfiguration extends sfPluginConfiguration
                     }
                 }
             }
-            elseif ( isset( $this->options['models'][$model]['i18nDisabledColumns'] ) )
+            else
             {
-                $disabled = array_merge(
-                    $this->options['i18nDisabledColumns'],
-                    $this->options['models'][$model]['i18nDisabledColumns']
-                );
-                foreach ( $fields as $k => $column )
+                $disabled = $this->options['i18nDisabledColumns'];
+                if ( isset( $this->options['models'][$model]['i18nDisabledColumns'] ) )
+                {
+                    $disabled = array_merge(
+                        $disabled,
+                        $this->options['models'][$model]['i18nDisabledColumns']
+                    );
+                }
+                foreach ( $options['fields'] as $k => $column )
                 {
                     if ( isset( $disabled[$column] ) )
                     {
@@ -403,7 +409,7 @@ class DinPluginConfiguration extends sfPluginConfiguration
     public function setTransColumn( $column, $isTransColumn, $model = null )
     {
 
-        if ( $isColumn )
+        if ( $isTransColumn )
         {
             if ( !is_null( $model ) )
             {
