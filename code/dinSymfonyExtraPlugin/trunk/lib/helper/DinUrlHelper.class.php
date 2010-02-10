@@ -186,7 +186,12 @@ class DinUrlHelper
         {
             $action = $options['ajax'] . "Ajax('"
                 . ( isset( $options['dest'] ) ? $options['dest'] : 'actionPartial' )
-                . "','" . $options['href'] . "');";
+                . "','" . $options['href'] . "'" . ( isset( $options['data'] ) ? ",'"
+                . $options['data'] . "'" : '' ) . ");";
+            if ( isset( $options['jconfirm'] ) )
+            {
+                $action = strtr( $options['jconfirm'], array( '%%action%%' => $action ) );
+            }
         }
         else
         {
@@ -198,7 +203,7 @@ class DinUrlHelper
 
         unset(
             $options['confirm'], $options['popup'], $options['method'], $options['post'],
-            $options['ajax'], $options['dest']
+            $options['ajax'], $options['dest'], $options['data'], $options['jconfirm']
         );
 
         if ( $confirm )

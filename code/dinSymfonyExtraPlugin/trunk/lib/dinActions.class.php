@@ -164,6 +164,29 @@ class dinActions extends sfActions
 
     } // dinActions::getSISOnce()
 
+
+    /**
+     * Change route immediately
+     * 
+     * @param   string  $name   Route name
+     * @param   array   $params Route params
+     * @return  void
+     * @author  relo_san
+     * @since   february 10, 2010
+     */
+    public function changeRoute( $name, $params )
+    {
+
+        $routes = $this->getContext()->getRouting()->getRoutes();
+        $route = $routes[$name];
+        unset( $routes );
+
+        $route->bind( array(), $params );
+        $route->compile();
+        $this->getRequest()->setAttribute( 'sf_route', $route );
+
+    } // dinActions::changeRoute()
+
 } // dinActions
 
 //EOF
