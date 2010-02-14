@@ -97,12 +97,6 @@ class DinModuleDefinition
                 }
                 unset( $this->definitions['generator']['param']['config']['form']['display']['translated'] );
             }
-            else
-            {
-                $this->definitions['generator']['param']['config']['form']['display']['fieldsets.def']
-                    = $this->definitions['generator']['param']['config']['form']['display']['translated'];
-            }
-            unset( $this->definitions['generator']['param']['config']['form']['display']['translated'] );
         }
 
     } // DinModuleDefinition::configureI18nFormFields()

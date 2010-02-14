@@ -60,16 +60,23 @@ class dinConfig
     /**
      * Get list
      * 
-     * @param   string  $model  Model name
-     * @param   string  $name   List name
-     * @return  array   List pairs
+     * @param   string  $model      Model name
+     * @param   string  $name       List name
+     * @param   mixed   $key        Key name [optional]
+     * @param   mixed   $default    Default value [optional]
+     * @return  array   List pairs (or one pair, if key provided)
      * @author  relo_san
      * @since   february 7, 2010
      */
-    static public function getList( $model, $name )
+    static public function getList( $model, $name, $key = null, $default = null )
     {
 
-        return Doctrine::getTable( 'DinList' )->getList( $model, $name );
+        if ( is_null( $key ) )
+        {
+            return Doctrine::getTable( 'DinList' )->getList( $model, $name, null, $default );
+        }
+        $data = Doctrine::getTable( 'DinList' )->getList( $model, $name, null, $default );
+        return isset( $data[$key] ) ? $data[$key] : $default;
 
     } // dinConfig::getList()
 
