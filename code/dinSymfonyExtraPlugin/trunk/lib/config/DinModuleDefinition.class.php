@@ -93,7 +93,7 @@ class DinModuleDefinition
                 foreach ( dinConfig::getActiveLanguages() as $lang )
                 {
                     $this->definitions['generator']['param']['config']['form']['display']['fieldsets.' . $lang]
-                        = $this->definitions['generator']['param']['config']['form']['display']['translated'];
+                        = array( $lang );
                 }
                 unset( $this->definitions['generator']['param']['config']['form']['display']['translated'] );
             }
