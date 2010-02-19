@@ -59,7 +59,7 @@ class dinWidgetFormTextareaTinymce extends sfWidgetFormTextarea
         $textarea = parent::render( $name, $value, $attributes, $errors );
 
         $js[] = '<script type="text/javascript">';
-        $js[] = "tinyMCE.init({mode:'exact',elements:'" . $this->generateId( $name ) . "',";
+        $js[] = "tinyMCE.init({mode:'none',elements:'" . $this->generateId( $name ) . "',";
         $js[] = "theme:'" . $this->getOption( 'theme' ) . "',";
         if ( $this->getOption( 'width' ) )
         {
@@ -75,7 +75,10 @@ class dinWidgetFormTextareaTinymce extends sfWidgetFormTextarea
         {
             $js[] = "," . $this->getOption( 'config' );
         }
-        $js[] = "});</script>";
+        $js[] = "});";
+        $js[] = "if(tinyMCE.get('" . $this->generateId( $name ) . "'))tinyMCE.remove(tinyMCE.get('" . $this->generateId( $name ) . "'));";
+        $js[] = "setTimeout('tinyMCE.execCommand(\'mceAddControl\',false,\'" . $this->generateId( $name ) . "\');', 100);";
+        $js[] = "</script>";
 
         return $textarea . implode( $js );
 
