@@ -127,8 +127,8 @@ class dinWidgetFormJqueryChoice extends sfWidgetFormChoiceBase
         if ( $this->getOption( 'tabbed' ) )
         {
             return strtr(
-                '<ul><li><a href="#%id%-1">%label_associated%</a></li><li>'
-                . '<a href="#%id%-2">%label_unassociated%</a></li></ul>',
+                '<ul><li><a onclick="blur()" href="#%id%-1">%label_associated%</a></li><li>'
+                . '<a onclick="blur()" href="#%id%-2">%label_unassociated%</a></li></ul>',
                 array(
                     '%id%'                  => $this->generateId( $name ),
                     '%label_associated%'    => I18n::__( $this->parent->getFormFormatter()->getTranslationCatalogue() . '.' . $this->getOption( 'label_associated' ) ),
