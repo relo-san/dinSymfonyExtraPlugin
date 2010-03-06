@@ -71,9 +71,44 @@ class DinModuleDefinition
     public function configure()
     {
 
+        $this->configureSort();
         $this->configureI18nFormFields();
 
     } // DinModuleDefinition::configure()
+
+
+    /**
+     * Configure sort
+     * 
+     * @return  void
+     * @author  relo_san
+     * @since   march 6, 2010
+     */
+    public function configureSort()
+    {
+
+        if ( $sort = $this->definitions['generator']['param']['config']['list']['sort'] )
+        {
+            $table = Doctrine::getTable( $this->definitions['generator']['param']['model_class'] );
+            
+            foreach ( $sort as $name => $rule )
+            {
+                foreach ( $rule['columns'] as $k => $column )
+                {
+                    if ( false !== strpos( $column, '.' ) || $table->hasColumn( $column ) )
+                    {
+                        continue;
+                    }
+                    else if ( $table->isI18n() && $table->getI18nTable()->hasColumn( $column ) )
+                    {
+                        $sort[$name]['columns'][$k] = 'Translation.' . $column;
+                    }
+                }
+            }
+            $this->definitions['generator']['param']['config']['list']['sort'] = $sort;
+        }
+
+    } // DinModuleDefinition::configureSort()
 
 
     /**
@@ -86,26 +121,66 @@ class DinModuleDefinition
     public function configureI18nFormFields()
     {
 
-        if ( $this->getPluginConfig()->isI18n( $this->definitions['generator']['param']['model_class'] ) )
+        $table = Doctrine::getTable( $this->definitions['generator']['param']['model_class'] );
+        if ( !$table->isI18n() )
         {
-            if ( isset( $this->definitions['generator']['param']['config']['form']['display']['translated'] ) )
+            foreach( array( 'form', 'edit', 'new' ) as $action )
             {
-                foreach ( dinConfig::getActiveLanguages() as $lang )
+                if ( isset( $this->definitions['generator']['param']['config'][$action]['display'] ) )
                 {
-                    $this->definitions['generator']['param']['config']['form']['display']['fieldsets.' . $lang]
-                        = array( $lang );
+                    $sets = $this->definitions['generator']['param']['config'][$action]['display'];
+                    if ( isset( $sets['translated'] ) )
+                    {
+                        $sets['fieldsets.def'] = $sets['translated'];
+                        unset( $sets['translated'] );
+                    }
+                    $this->definitions['generator']['param']['config'][$action]['display'] = $sets;
                 }
             }
+            return;
         }
-        else
+        $i18n = $table->getI18nTable();
+
+        foreach( array( 'form', 'edit', 'new' ) as $action )
         {
-            if ( isset( $this->definitions['generator']['param']['config']['form']['display']['translated'] ) )
+            if ( isset( $this->definitions['generator']['param']['config'][$action]['display'] ) )
             {
-                $this->definitions['generator']['param']['config']['form']['display']['fieldsets.def']
-                    = $this->definitions['generator']['param']['config']['form']['display']['translated'];
+                $sets = $this->definitions['generator']['param']['config'][$action]['display'];
+                if ( !$sets )
+                {
+                    continue;
+                }
+                foreach ( $sets as $name => $column )
+                {
+                    if ( $name == 'translated' )
+                    {
+                        continue;
+                    }
+                    foreach ( $columns as $k => $column )
+                    {
+                        if ( $table->hasColumn( $column ) )
+                        {
+                            continue;
+                        }
+                        else if ( $i18n->hasColumn( $column ) )
+                        {
+                            $sets['translated'][] = $column;
+                            unset( $sets[$name][$k] );
+                        }
+                    }
+                }
+                //TODO: add configurable translations
+                if ( isset( $sets['translated'] ) )
+                {
+                    foreach ( dinConfig::getActiveLanguages() as $lang )
+                    {
+                        $sets['fieldsets.' . $lang] = array( $lang );
+                    }
+                    unset( $sets['translated'] );
+                }
+                $this->definitions['generator']['param']['config'][$action]['display'] = $sets;
             }
         }
-        unset( $this->definitions['generator']['param']['config']['form']['display']['translated'] );
 
     } // DinModuleDefinition::configureI18nFormFields()
 
