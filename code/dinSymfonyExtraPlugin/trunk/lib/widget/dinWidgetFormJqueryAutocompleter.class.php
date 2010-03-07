@@ -64,6 +64,10 @@ class dinWidgetFormJqueryAutocompleter extends sfWidgetFormInput
     /**
      * Render field
      * 
+     * @param   string  $name       Element name
+     * @param   string  $value      Element value
+     * @param   array   $attributes HTML attributes [optional]
+     * @param   array   $errors     Errors for the field [optional]
      * @return  string  XHTML compliant tag
      * @author  relo_san
      * @since   february 8, 2010
