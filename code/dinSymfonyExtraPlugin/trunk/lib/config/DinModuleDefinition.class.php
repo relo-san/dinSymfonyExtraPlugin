@@ -186,6 +186,71 @@ class DinModuleDefinition
 
 
     /**
+     * Set field
+     * 
+     * @param   string  $name       Field name
+     * @param   array   $definition Field definition
+     * @return  void
+     * @author  relo_san
+     * @since   march 6, 2010
+     */
+    public function setField( $name, $definition )
+    {
+
+        $this->definitions['generator']['param']['config']['fields'][$name] = $definition;
+
+    } // DinModuleDefinition::setField()
+
+
+    /**
+     * Set list display fields
+     * 
+     * @param   array   $fields Field names
+     * @return  void
+     * @author  relo_san
+     * @since   march 6, 2010
+     */
+    public function setListDisplay( $fields )
+    {
+
+        $this->definitions['generator']['param']['config']['list']['display'] = $fields;
+
+    } // DinModuleDefinition::setListDisplay()
+
+
+    /**
+     * Set filter display fields
+     * 
+     * @param   array   $fields Field names
+     * @return  void
+     * @author  relo_san
+     * @since   march 6, 2010
+     */
+    public function setFilterDisplay( $fields )
+    {
+
+        $this->definitions['generator']['param']['config']['filter']['display'] = $fields;
+
+    } // DinModuleDefinition::setFilterDisplay()
+
+
+    /**
+     * Set form display fieldsets
+     * 
+     * @param   array   $fieldsets  Fieldsets
+     * @return  void
+     * @author  relo_san
+     * @since   march 6, 2010
+     */
+    public function setFormDisplay( $fieldsets )
+    {
+
+        $this->definitions['generator']['param']['config']['form']['display'] = $fieldsets;
+
+    } // DinModuleDefinition::setFormDisplay()
+
+
+    /**
      * Get rendered module config
      * 
      * @return  string  Yaml config part

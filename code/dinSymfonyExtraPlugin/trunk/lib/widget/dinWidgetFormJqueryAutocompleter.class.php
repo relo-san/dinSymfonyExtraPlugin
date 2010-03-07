@@ -44,6 +44,24 @@ class dinWidgetFormJqueryAutocompleter extends sfWidgetFormInput
 
 
     /**
+     * Get visible value
+     * 
+     * @param   mixed   $value  Source value
+     * @return  string  Visible value
+     * @author  relo_san
+     * @since   march 7, 2010
+     */
+    protected function getVisibleValue( $value )
+    {
+
+        return $this->getOption( 'value_callback' )
+            ? call_user_func( $this->getOption( 'value_callback' ), $value )
+            : $value;
+
+    } // dinWidgetFormJqueryAutocompleter::getVisibleValue()
+
+
+    /**
      * Render field
      * 
      * @return  string  XHTML compliant tag
@@ -53,35 +71,22 @@ class dinWidgetFormJqueryAutocompleter extends sfWidgetFormInput
     public function render( $name, $value = null, $attributes = array(), $errors = array() )
     {
 
-        $visibleValue = $this->getOption( 'value_callback' )
-            ? call_user_func( $this->getOption( 'value_callback' ), $value ) : $value;
+        $s[] = '<script type="text/javascript">';
+        $s[] = 'jQuery(document).ready(function(){';
+        $s[] = "jQuery('#" . $this->generateId( 'autocomplete_' . $name ) . "')";
+        $s[] = ".autocomplete('" . $this->getOption( 'url' ) . "',jQuery.extend({},{";
+        $s[] = "dataType:'json',scroll:true,resultsClass:'ui-autocomplete-menu ui-menu ui-widget ui-widget-content ui-corner-all',loadingClass:'acpl_loading',";
+        $s[] = "inputClass:'acpl_input',parse:function(data){var parsed=[];for(key in data){";
+        $s[] = "parsed[parsed.length]={data:[data[key].value,key],value:data[key].value,result:data[key].result};";
+        $s[] = "}return parsed;}}, " . $this->getOption( 'config' ) . ")).result(function(event,data){";
+        $s[] = "jQuery('#" . $this->generateId( $name ) . "').val(data[1]);});});";
+        $s[] = '</script>';
 
-        return $this->renderTag('input', array('type' => 'hidden', 'name' => $name, 'value' => $value)).
-           parent::render('autocomplete_'.$name, $visibleValue, $attributes, $errors).
-           sprintf(<<<EOF
-<script type="text/javascript">
-  jQuery(document).ready(function() {
-    jQuery("#%s")
-    .autocomplete('%s', jQuery.extend({}, {
-      dataType: 'json',
-      parse:    function(data) {
-        var parsed = [];
-        for (key in data) {
-          parsed[parsed.length] = { data: [ data[key].value, key ], value: data[key].value, result: data[key].result };
-        }
-        return parsed;
-      }
-    }, %s))
-    .result(function(event, data) { jQuery("#%s").val(data[1]); });
-  });
-</script>
-EOF
-      ,
-      $this->generateId('autocomplete_'.$name),
-      $this->getOption('url'),
-      $this->getOption('config'),
-      $this->generateId($name)
-    );
+        return $this->renderTag( 'input', array(
+                'type' => 'hidden', 'name' => $name, 'value' => $value, 'class' => '' )
+            ) . parent::render(
+                'autocomplete_' . $name, $this->getVisibleValue( $value ), $attributes, $errors
+            ) . implode( $s );
 
     } // dinWidgetFormJqueryAutocompleter::render()
 
