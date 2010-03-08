@@ -35,6 +35,7 @@ class dinWidgetFormJqueryDate extends sfWidgetForm
     {
 
         $this->addOption( 'format', '%month%/%day%/%year%' );
+        $this->addOption( 'config', '' );
 
     } // dinWidgetFormJqueryDate::configure()
 
@@ -79,7 +80,9 @@ class dinWidgetFormJqueryDate extends sfWidgetForm
         $widget = new sfWidgetFormInputText( array(), $attributes );
         return $widget->render( $name, $dateValue )
             . '<script type="text/javascript">$(function(){$("#'
-            . $widget->generateId( $name, $dateValue ) . '").datepicker();});</script>';
+            . $widget->generateId( $name, $dateValue ) . '").datepicker('
+            . ( $this->getOption( 'config' ) ? '{' . $this->getOption( 'config' ) . '}' : '' )
+            . ');});</script>';
 
     } // dinWidgetFormJqueryDate::render()
 
