@@ -21,6 +21,13 @@
 class dinDoctrinePager extends sfDoctrinePager
 {
 
+
+    protected
+        $useCache = false,
+        $cacheKey = null,
+        $cacheDriver = null,
+        $cache = null;
+
     /**
      * Initializing pager
      * 
@@ -32,6 +39,23 @@ class dinDoctrinePager extends sfDoctrinePager
     public function init()
     {
 
+        if ( $this->useCache )
+        {
+            $this->cacheKey = dinDoctrine::getCacheKey(
+                $this->getClass(), dinDoctrine::CACHE_TYPE_PAGE, $this->getPage(), $this->cacheKey
+            );
+            $this->cacheDriver = dinDoctrine::getCacheDriver(
+                $this->getClass(), dinDoctrine::CACHE_TYPE_PAGE, $this->getPage()
+            );
+            if ( $this->cacheDriver->has( $this->cacheKey ) )
+            {
+                $this->cache = unserialize( $this->cacheDriver->get( $this->cacheKey ) );
+                if ( isset( $this->cache['pager'] ) )
+                {
+                    return $this->unserialize( $this->cache['pager'] );
+                }
+            }
+        }
         parent::init();
 
         if ( $this->getPage() == $this->getLastPage() )
@@ -39,7 +63,73 @@ class dinDoctrinePager extends sfDoctrinePager
             $this->getQuery()->offset( ( $this->getLastPage() - 1 ) * $this->getMaxPerPage() );
         }
 
+        if ( $this->useCache )
+        {
+            $this->cache['pager'] = $this->serialize();
+        }
+
     } // dinDoctrinePager::init()
+
+
+    /**
+     * Get results
+     * 
+     * @param   mixed   $hydrationMode  Doctrine hydration mode
+     * @return  array|Doctrine_Collection   Results
+     * @author  relo_san
+     * @since   march 10, 2010
+     */
+    public function getResults( $hydrationMode = null )
+    {
+
+        if ( $this->useCache && isset( $this->cache['data'] ) )
+        {
+            return $this->cache['data'];
+        }
+        $results = parent::getResults( $hydrationMode );
+        if ( $this->useCache && isset( $this->cache['pager'] ) )
+        {
+            $this->cache['data'] = $results;
+            $this->cacheDriver->set( $this->cacheKey, serialize( $this->cache ) );
+        }
+        return $results;
+
+    } // dinDoctrinePager::getResults()
+
+
+    /**
+     * Serialize pager object
+     * 
+     * @return  string  Serialized vars
+     * @author  relo_san
+     * @since   march 10, 2010
+     */
+    public function serialize()
+    {
+
+        $vars = get_object_vars( $this );
+        unset( $vars['query'], $vars['cache'], $vars['cacheDriver'], $vars['cacheKey'] );
+        return serialize( $vars );
+
+    } // dinDoctrinePager::serialize()
+
+
+    /**
+     * Use cache
+     * 
+     * @param   string|false    $key    Cache key [if using cache]
+     * @return  dinDoctrinePager
+     * @author  relo_san
+     * @since   march 10, 2010
+     */
+    public function useCache( $key = false )
+    {
+
+        $this->useCache = $key ? true : false;
+        $this->cacheKey = $key ? $key : null;
+        return $this;
+
+    } // dinDoctrinePager::useCache()
 
 
     /**
@@ -58,6 +148,23 @@ class dinDoctrinePager extends sfDoctrinePager
         return $this;
 
     } // dinDoctrinePager::setQuery()
+
+
+    /**
+     * Set table method
+     * 
+     * @param   string  $tableMethodName    Table method
+     * @return  dinDoctrinePager
+     * @author  relo_san
+     * @since   march 10, 2010
+     */
+    public function setTableMethod( $tableMethodName )
+    {
+
+        $this->tableMethodName = $tableMethodName;
+        return $this;
+
+    } // dinDoctrinePager::setTableMethod()
 
 
     /**
