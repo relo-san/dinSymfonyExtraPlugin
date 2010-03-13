@@ -24,9 +24,10 @@ class dinDoctrinePager extends sfDoctrinePager
 
     protected
         $useCache = false,
-        $cacheKey = null,
-        $cacheDriver = null,
-        $cache = null;
+        $cacheRoute = null,
+        $cacheManager = null,
+        $cache = null,
+        $queryParams = array();
 
     /**
      * Initializing pager
@@ -41,19 +42,15 @@ class dinDoctrinePager extends sfDoctrinePager
 
         if ( $this->useCache )
         {
-            $this->cacheKey = dinDoctrine::getCacheKey(
-                $this->getClass(), dinDoctrine::CACHE_TYPE_PAGE, $this->getPage(), $this->cacheKey
+            $this->cacheManager = sfContext::getInstance()->get( 'cache_routing' );
+            $data = $this->cacheManager->getContent(
+                $this->cacheRoute, $this->getClass(),
+                array_merge( array( 'page' => $this->getPage() ), $this->queryParams )
             );
-            $this->cacheDriver = dinDoctrine::getCacheDriver(
-                $this->getClass(), dinDoctrine::CACHE_TYPE_PAGE, $this->getPage()
-            );
-            if ( $this->cacheDriver->has( $this->cacheKey ) )
+            if ( isset( $data['pager'] ) && isset( $data['data'] ) )
             {
-                $this->cache = unserialize( $this->cacheDriver->get( $this->cacheKey ) );
-                if ( isset( $this->cache['pager'] ) )
-                {
-                    return $this->unserialize( $this->cache['pager'] );
-                }
+                $this->cache = $data;
+                return $this->unserialize( $this->cache['pager'] );
             }
         }
         parent::init();
@@ -82,15 +79,24 @@ class dinDoctrinePager extends sfDoctrinePager
     public function getResults( $hydrationMode = null )
     {
 
-        if ( $this->useCache && isset( $this->cache['data'] ) )
+        if ( $this->useCache )
         {
-            return $this->cache['data'];
+            if ( isset( $this->cache['data'] ) )
+            {
+                return $this->cache['data'];
+            }
+            $this->setTableMethod( $this->cacheManager->getQueryMethod( $this->cacheRoute ) );
+            $hydrationMode = Doctrine::HYDRATE_ARRAY;
         }
+
         $results = parent::getResults( $hydrationMode );
         if ( $this->useCache && isset( $this->cache['pager'] ) )
         {
             $this->cache['data'] = $results;
-            $this->cacheDriver->set( $this->cacheKey, serialize( $this->cache ) );
+            $this->cacheManager->setContent(
+                $this->cacheRoute, $this->cache, $this->getClass(),
+                array_merge( array( 'page' => $this->getPage() ), $this->queryParams )
+            );
         }
         return $results;
 
@@ -108,7 +114,7 @@ class dinDoctrinePager extends sfDoctrinePager
     {
 
         $vars = get_object_vars( $this );
-        unset( $vars['query'], $vars['cache'], $vars['cacheDriver'], $vars['cacheKey'] );
+        unset( $vars['query'], $vars['cache'], $vars['cacheManager'], $vars['cacheRoute'] );
         return serialize( $vars );
 
     } // dinDoctrinePager::serialize()
@@ -117,16 +123,16 @@ class dinDoctrinePager extends sfDoctrinePager
     /**
      * Use cache
      * 
-     * @param   string|false    $key    Cache key [if using cache]
+     * @param   string|false    $route  Cache route name [if using cache]
      * @return  dinDoctrinePager
      * @author  relo_san
      * @since   march 10, 2010
      */
-    public function useCache( $key = false )
+    public function useCache( $route = false )
     {
 
-        $this->useCache = $key ? true : false;
-        $this->cacheKey = $key ? $key : null;
+        $this->useCache = $route ? true : false;
+        $this->cacheRoute = $route ? $route : null;
         return $this;
 
     } // dinDoctrinePager::useCache()
@@ -148,6 +154,21 @@ class dinDoctrinePager extends sfDoctrinePager
         return $this;
 
     } // dinDoctrinePager::setQuery()
+
+
+    /**
+     * setQueryParams
+     * 
+     * @return  
+     * @author  relo_san
+     * @since   13.03.2010
+     */
+    public function setQueryParams( array $params = array() )
+    {
+
+        $this->queryParams = $params;
+
+    } // dinDoctrinePager::setQueryParams()
 
 
     /**

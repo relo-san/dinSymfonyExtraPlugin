@@ -22,6 +22,25 @@ class DinProjectConfiguration extends sfProjectConfiguration
 {
 
     /**
+     * __construct
+     * 
+     * @return  
+     * @author  relo_san
+     * @since   12.03.2010
+     */
+    public function __construct( $rootDir = null, sfEventDispatcher $dispatcher = null )
+    {
+
+        parent::__construct( $rootDir, $dispatcher );
+
+        $pldir = sfConfig::get( 'sf_plugins_dir' );
+        require_once( $pldir . '/dinSymfonyExtraPlugin/lib/config/dinRoutingConfigHandler.class.php' );
+        require_once( $pldir . '/dinSymfonyExtraPlugin/lib/config/dinCacheRoutingConfigHandler.class.php' );
+
+    } // DinProjectConfiguration::__construct()
+
+
+    /**
      * Load plugins
      * 
      * @return  void
@@ -45,30 +64,32 @@ class DinProjectConfiguration extends sfProjectConfiguration
             $file = sprintf( '%s/%s/%s.class.php', $rootDir . '/lib/config', $plugin, $class );
             $oldFile = sprintf( '%s/config/%s.class.php', $path, $oldClass );
             $pluginFile = sprintf( '%s/config/%s.class.php', $path, 'Plugin' . $class );
+
+            $isPlugin = false;
             if ( is_readable( $pluginFile ) )
             {
                 require_once $pluginFile;
-                if ( is_readable( $file ) )
-                {
-                    require_once $file;
-                }
-                else
-                {
-                    $class = 'Plugin' . $class;
-                }
-                $this->pluginConfigurations[$plugin] = new $class( $this, $path, $plugin );
+                $isPlugin = true;
+            }
+            if ( is_readable( $file ) )
+            {
+                require_once $file;
+            }
+            else if ( $isPlugin )
+            {
+                $class = 'Plugin' . $class;
             }
             else if ( is_readable( $oldFile ) )
             {
                 require_once $oldFile;
+                $class = $oldClass;
                 $this->pluginConfigurations[$plugin] = new $oldClass( $this, $path, $plugin );
             }
             else
             {
-                $this->pluginConfigurations[$plugin] = new sfPluginConfigurationGeneric(
-                    $this, $path, $plugin
-                );
+                $class = 'sfPluginConfigurationGeneric';
             }
+            $this->pluginConfigurations[$plugin] = new $class( $this, $path, $plugin );
 
         }
 
