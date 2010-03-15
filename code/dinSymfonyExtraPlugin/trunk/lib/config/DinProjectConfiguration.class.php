@@ -36,6 +36,7 @@ class DinProjectConfiguration extends sfProjectConfiguration
         $pldir = sfConfig::get( 'sf_plugins_dir' );
         require_once( $pldir . '/dinSymfonyExtraPlugin/lib/config/dinRoutingConfigHandler.class.php' );
         require_once( $pldir . '/dinSymfonyExtraPlugin/lib/config/dinCacheRoutingConfigHandler.class.php' );
+        require_once( $pldir . '/dinSymfonyExtraPlugin/lib/config/dinFactoryConfigHandler.class.php' );
 
     } // DinProjectConfiguration::__construct()
 
