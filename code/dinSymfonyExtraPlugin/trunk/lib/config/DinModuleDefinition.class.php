@@ -87,6 +87,10 @@ class DinModuleDefinition
     public function configureSort()
     {
 
+        if ( !isset( $this->definitions['generator']['param']['config']['list']['sort'] ) )
+        {
+            $this->definitions['generator']['param']['config']['list']['sort'] = array();
+        }
         if ( $sort = $this->definitions['generator']['param']['config']['list']['sort'] )
         {
             $table = Doctrine::getTable( $this->definitions['generator']['param']['model_class'] );
@@ -150,7 +154,7 @@ class DinModuleDefinition
                 {
                     continue;
                 }
-                foreach ( $sets as $name => $column )
+                foreach ( $sets as $name => $columns )
                 {
                     if ( $name == 'translated' )
                     {

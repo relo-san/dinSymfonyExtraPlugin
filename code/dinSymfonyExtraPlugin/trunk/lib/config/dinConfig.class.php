@@ -32,6 +32,12 @@ class dinConfig
     static public function getActiveLanguages( $application = null )
     {
 
+        $method = sfConfig::get( 'sf_manage_languages', 'config' );
+        if ( $method == 'config' )
+        {
+            return sfConfig::get( 'sf_active_languages', array( 'en' ) );
+        }
+
         //TODO: add languages managing
         return array( 'en', 'ru' );
 
