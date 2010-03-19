@@ -169,6 +169,10 @@ class dinCacheRouting
         }
         $items = $q->execute( array(), Doctrine::HYDRATE_ARRAY );
         $q->free();
+        if ( !isset( $params['_no_prepare_translations'] ) )
+        {
+            $items = $this->prepareTranslations( $items );
+        }
 
         $data = array();
         foreach ( $items as $item )
@@ -197,6 +201,10 @@ class dinCacheRouting
         $q = Doctrine::getTable( $model )->$method( $params );
         $items = $q->execute( array(), Doctrine::HYDRATE_ARRAY );
         $q->free();
+        if ( !isset( $params['_no_prepare_translations'] ) )
+        {
+            $items = $this->prepareTranslations( $items );
+        }
 
         $data = array();
         foreach ( $items as $item )
@@ -225,6 +233,10 @@ class dinCacheRouting
         $q = Doctrine::getTable( $model )->$method( $params );
         $data = $q->execute( array(), Doctrine::HYDRATE_ARRAY );
         $q->free();
+        if ( !isset( $params['_no_prepare_translations'] ) )
+        {
+            $data = $this->prepareTranslations( $data );
+        }
         return $data;
 
     } // dinCacheRouting::getCustomContent()
@@ -246,6 +258,10 @@ class dinCacheRouting
 
         $params['_model'] = $model;
         $params['_type'] = $this->routes[$route]['type'];
+        if ( !isset( $params['_no_prepare_translations'] ) )
+        {
+            $data = $this->prepareTranslations( $data );
+        }
         $key = $this->getCacheKey( $route, 'get', $params );
         $driver = $this->getCacheDriver( $route, 'get', $params );
         $driver->set( $key, serialize( $data ) );
@@ -532,6 +548,38 @@ class dinCacheRouting
         return (string)$params[$key];
 
     } // dinCacheRouting::processKeyPart()
+
+
+    /**
+     * Prepare translations in result array
+     * 
+     * @param   array   Source array [optional]
+     * @return  array   Result array with moved translations
+     * @author  relo_san
+     * @since   march 18, 2010
+     */
+    protected function prepareTranslations( array $array = array() )
+    {
+
+        if ( isset( $array['Translation'] ) )
+        {
+            foreach ( $array['Translation'] as $translated )
+            {
+                unset( $translated['id'], $translated['lang'] );
+                $array = array_merge( $array, $translated );
+            }
+            unset( $array['Translation'] );
+        }
+        foreach ( $array as $key => $value )
+        {
+            if ( is_array( $value ) )
+            {
+                $array[$key] = $this->prepareTranslations( $value );
+            }
+        }
+        return $array;
+
+    } // dinCacheRouting::prepareTranslations()
 
 } // dinCacheRouting
 

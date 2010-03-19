@@ -58,10 +58,13 @@ class dinWidgetFormTextareaTinymce extends sfWidgetFormTextarea
 
         $textarea = parent::render( $name, $value, $attributes, $errors );
 
-        $js[] = '<a class="tinymce_activation" href="javascript:void(0)" onclick="tmcActivation'
-              . $this->generateId( $name ) . '()">' . I18n::__( 'admin.labels.tmcActivation' ) . '</a>';
-        $js[] = '<script type="text/javascript">';
+        $js[] = '<a id="tmcAct' . $this->generateId( $name ) . '" class="tinymce_activation"'
+              . ' href="javascript:void(0)" onclick="tmcActivation'
+              . $this->generateId( $name ) . '()" title="' . I18n::__( 'admin.labels.tmcActivation' ) . '"></a>';
+        $js[] = '<script type="text/javascript">if(typeof jQuery!=\'undefined\'){';
+        $js[] = "$('#tmcAct" . $this->generateId( $name ) . "').button({icons:{primary:'ui-icon-contact'},text:false});";
         $js[] = 'function tmcActivation' . $this->generateId( $name ) . '(){';
+        $js[] = "$('#tmcAct" . $this->generateId( $name ) . "').hide();";
         $js[] = "tinyMCE.init({mode:'none',elements:'" . $this->generateId( $name ) . "',";
         $js[] = "theme:'" . $this->getOption( 'theme' ) . "',";
         if ( $this->getOption( 'width' ) )
@@ -81,7 +84,7 @@ class dinWidgetFormTextareaTinymce extends sfWidgetFormTextarea
         $js[] = "});";
         $js[] = "if(tinyMCE.get('" . $this->generateId( $name ) . "'))tinyMCE.remove(tinyMCE.get('" . $this->generateId( $name ) . "'));";
         $js[] = "setTimeout('tinyMCE.execCommand(\'mceAddControl\',false,\'" . $this->generateId( $name ) . "\');', 100);}";
-        $js[] = "</script>";
+        $js[] = "}</script>";
 
         return $textarea . implode( $js );
 

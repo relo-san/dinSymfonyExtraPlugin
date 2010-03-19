@@ -284,7 +284,7 @@ class DinPluginConfiguration extends sfPluginConfiguration
                 }
                 return $this;
             }
-            if ( $this->options['disabledBehaviors']['I18nMod'] )
+            if ( isset( $this->options['disabledBehaviors']['I18nMod'] ) )
             {
                 unset( $this->options['disabledBehaviors']['I18nMod'] );
             }
