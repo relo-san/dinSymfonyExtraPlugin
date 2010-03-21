@@ -558,7 +558,7 @@ class dinCacheRouting
      * @author  relo_san
      * @since   march 18, 2010
      */
-    protected function prepareTranslations( array $array = array() )
+    public function prepareTranslations( array $array = array() )
     {
 
         if ( isset( $array['Translation'] ) )
