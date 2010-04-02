@@ -207,6 +207,19 @@ class dinCacheRouting
         }
 
         $data = array();
+        if ( isset( $params['join'] ) )
+        {
+            foreach ( $items as $item )
+            {
+                $s = array();
+                foreach ( $item[$params['join']] as $sitem )
+                {
+                    $s[$sitem['id']] = $sitem['title'];
+                }
+                $data[$item['title']] = $s;
+            }
+            return $data;
+        }
         foreach ( $items as $item )
         {
             $data[$item['id']] = $item['title'];
