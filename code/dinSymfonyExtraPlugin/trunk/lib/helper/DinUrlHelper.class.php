@@ -167,6 +167,30 @@ class DinUrlHelper
 
 
     /**
+     * Interleave path part
+     * 
+     * @param   mixed   $key        Identifier
+     * @param   boolean $isPersFold Add personal folder to path
+     * @return  string  Interleave path part
+     * @author  relo_san
+     * @since   april 5, 2010
+     */
+    static public function interleave( $key, $isPersFold = false )
+    {
+
+        if ( !is_numeric( $key ) )
+        {
+            $key = md5( $key );
+            return substr( $key, 0, 2 ) . '/' . substr( $key, 2, 2 ) . '/'
+                . substr( $key, 4, 2 ) . ( $isPersFold ? '/' . $key : '' );
+        }
+        return floor( $key / 1000000000 ) . '/' . floor( $key / 1000000 )
+            . '/' . floor( $key / 1000 ) . ( $isPersFold ? '/' . $key : '' );
+
+    } // DinUrlHelper::interleave()
+
+
+    /**
      * Convert options to javascript
      * 
      * @param   array   $options    Source options
