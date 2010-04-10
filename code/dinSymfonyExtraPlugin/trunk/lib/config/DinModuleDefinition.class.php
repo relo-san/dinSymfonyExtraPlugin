@@ -93,8 +93,8 @@ class DinModuleDefinition
         }
         if ( $sort = $this->definitions['generator']['param']['config']['list']['sort'] )
         {
+/*
             $table = Doctrine::getTable( $this->definitions['generator']['param']['model_class'] );
-            
             foreach ( $sort as $name => $rule )
             {
                 foreach ( $rule['columns'] as $k => $column )
@@ -109,6 +109,7 @@ class DinModuleDefinition
                     }
                 }
             }
+*/
             $this->definitions['generator']['param']['config']['list']['sort'] = $sort;
         }
 
