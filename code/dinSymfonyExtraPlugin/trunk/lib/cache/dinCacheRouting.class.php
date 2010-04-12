@@ -337,7 +337,7 @@ class dinCacheRouting
      * @author  relo_san
      * @since   march 12, 2010
      */
-    protected function removeCacheForRoute( $route, $params )
+    public function removeCacheForRoute( $route, $params )
     {
 
         if ( isset( $this->routes[$route]['remove'] ) )
