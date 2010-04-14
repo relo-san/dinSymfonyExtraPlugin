@@ -256,6 +256,30 @@ class dinCacheRouting
 
 
     /**
+     * Get content for prepared type
+     * 
+     * @param   string  $route  Route name
+     * @param   string  $model  Associated model name
+     * @param   array   $params Query params
+     * @return  mixed   Cached result
+     * @author  relo_san
+     * @since   march 12, 2010
+     */
+    protected function getPreparedContent( $route, $model, $params )
+    {
+
+        $method = $this->routes[$route]['get']['method'];
+        $data = Doctrine::getTable( $model )->$method( $params );
+        if ( !isset( $params['_no_prepare_translations'] ) )
+        {
+            $data = $this->prepareTranslations( $data );
+        }
+        return $data;
+
+    } // dinCacheRouting::getCustomContent()
+
+
+    /**
      * Set content cache
      * 
      * @param   string  $route  Route name

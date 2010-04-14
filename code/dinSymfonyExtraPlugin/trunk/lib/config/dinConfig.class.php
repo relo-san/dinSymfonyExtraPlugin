@@ -21,6 +21,8 @@
 class dinConfig
 {
 
+    static public $lists = array();
+
     /**
      * Get active languages
      * 
@@ -70,19 +72,29 @@ class dinConfig
      * @param   string  $name       List name
      * @param   mixed   $key        Key name [optional]
      * @param   mixed   $default    Default value [optional]
+     * @param   boolean $store      Storing loaded data
      * @return  array   List pairs (or one pair, if key provided)
      * @author  relo_san
      * @since   february 7, 2010
      */
-    static public function getList( $model, $name, $key = null, $default = null )
+    static public function getList( $model, $name, $key = null, $default = null, $store = true )
     {
+
+        if ( !isset( self::$lists[$model][$name] ) )
+        {
+            self::$lists[$model][$name] = sfContext::getInstance()->get( 'cache_routing' )->getContent(
+                'global_list', 'DinList', array( 'model' => $model, 'name' => $name )
+            );
+            //self::$lists[$model][$name] = Doctrine::getTable( 'DinList' )->getList(
+            //    $model, $name, null, $default
+            //);
+        }
 
         if ( is_null( $key ) )
         {
-            return Doctrine::getTable( 'DinList' )->getList( $model, $name, null, $default );
+            return self::$lists[$model][$name];
         }
-        $data = Doctrine::getTable( 'DinList' )->getList( $model, $name, null, $default );
-        return isset( $data[$key] ) ? $data[$key] : $default;
+        return isset( self::$lists[$model][$name][$key] ) ? self::$lists[$model][$name][$key] : $default;
 
     } // dinConfig::getList()
 
