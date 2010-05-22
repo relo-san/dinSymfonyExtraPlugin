@@ -41,7 +41,7 @@ class dinFactoryConfigHandler extends sfYamlConfigHandler
     $instances = array();
 
     // available list of factories
-    $factories = array('view_cache_manager', 'logger', 'i18n', 'controller', 'request', 'response', 'routing', 'storage', 'user', 'view_cache', 'mailer', 'cache_routing');
+    $factories = array('view_cache_manager', 'logger', 'i18n', 'controller', 'request', 'response', 'storage', 'user', 'cache_routing', 'routing', 'view_cache', 'mailer');
 
     // let's do our fancy work
     foreach ($factories as $factory)
@@ -167,7 +167,7 @@ class dinFactoryConfigHandler extends sfYamlConfigHandler
                            "if (\$parameters = \$this->factories['routing']->parse(\$this->factories['request']->getPathInfo()))\n".
                            "{\n".
                            "  \$this->factories['request']->addRequestParameters(\$parameters);\n".
-                           "}\n",
+                           "}\n" . '$this->factories[\'routing\']->setDefaultParameter( \'sf_culture\', $this->factories[\'user\']->getCulture() );' . "\n\n",
                            $class, $cache, var_export($parameters, true)
                          );
           break;
