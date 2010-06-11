@@ -38,6 +38,7 @@ class dinWidgetFormTextareaTinymce extends sfWidgetFormTextarea
         $this->addOption( 'width' );
         $this->addOption( 'height' );
         $this->addOption( 'config', '' );
+        $this->addOption( 'activate', true );
 
     } // dinWidgetFormTextareaTinymce::configure()
 
@@ -57,36 +58,45 @@ class dinWidgetFormTextareaTinymce extends sfWidgetFormTextarea
     {
 
         $textarea = parent::render( $name, $value, $attributes, $errors );
+        $genId = $this->generateId( $name );
 
-        $js[] = '<a id="tmcAct' . $this->generateId( $name ) . '" class="tinymce_activation"'
-              . ' href="javascript:void(0)" onclick="tmcActivation'
-              . $this->generateId( $name ) . '()" title="' . I18n::__( 'admin.labels.tmcActivation' ) . '"></a>';
-        $js[] = '<script type="text/javascript">if(typeof jQuery!=\'undefined\'){';
-        $js[] = "$('#tmcAct" . $this->generateId( $name ) . "').button({icons:{primary:'ui-icon-contact'},text:false});";
-        $js[] = 'function tmcActivation' . $this->generateId( $name ) . '(){';
-        $js[] = "$('#tmcAct" . $this->generateId( $name ) . "').hide();";
-        $js[] = "tinyMCE.init({mode:'none',elements:'" . $this->generateId( $name ) . "',";
-        $js[] = "theme:'" . $this->getOption( 'theme' ) . "',";
-        if ( $this->getOption( 'width' ) )
-        {
-            $js[] = "width:'" . $this->getOption( 'width' ) . "px',";
-        }
-        if ( $this->getOption( 'height' ) )
-        {
-            $js[] = "height:'" . $this->getOption( 'height' ) . "px',";
-        }
-        $js[] = "theme_advanced_toolbar_location:'top',theme_advanced_toolbar_align:'left',";
-        $js[] = "theme_advanced_statusbar_location:'bottom',theme_advanced_resizing:true";
-        if ( $this->getOption( 'config' ) )
-        {
-            $js[] = "," . $this->getOption( 'config' );
-        }
-        $js[] = "});";
-        $js[] = "if(tinyMCE.get('" . $this->generateId( $name ) . "'))tinyMCE.remove(tinyMCE.get('" . $this->generateId( $name ) . "'));";
-        $js[] = "setTimeout('tinyMCE.execCommand(\'mceAddControl\',false,\'" . $this->generateId( $name ) . "\');', 100);}";
-        $js[] = "}</script>";
+        $init[] = "tinyMCE.init({mode:'none',elements:'" . $genId . "',";
+        $init[] = "theme:'" . $this->getOption( 'theme' ) . "',";
+        $init[] = $this->getOption( 'width' ) ? "width:'" . $this->getOption( 'width' ) . "px'," : '';
+        $init[] = $this->getOption( 'height' ) ? "height:'" . $this->getOption( 'height' ) . "px'," : '';
+        $init[] = "theme_advanced_toolbar_location:'top',theme_advanced_toolbar_align:'left',";
+        $init[] = "theme_advanced_statusbar_location:'bottom',theme_advanced_resizing:true";
+        $init[] = $this->getOption( 'config' ) ? "," . $this->getOption( 'config' ) : '';
+        $init[] = "});";
 
-        return $textarea . implode( $js );
+        $fix[] = "if(tinyMCE.get('" . $genId . "'))tinyMCE.remove(tinyMCE.get('" . $genId . "'));";
+        $fix[] = "setTimeout('tinyMCE.execCommand(\'mceAddControl\',false,\'" . $genId . "\');', 100);";
+
+        // remove this shit
+        if ( !$this->getOption( 'activate' ) )
+        {
+            $ext[] = '<a id="tmcAct' . $genId . '" class="tinymce_activation" ';
+            $ext[] = 'href="javascript:void(0)" onclick="tmcActivation' . $genId . '()" title="';
+            $ext[] = I18n::__( 'admin.labels.tmcActivation' ) . '"></a>';
+        }
+
+        $ext[] = '<script type="text/javascript">';
+
+        if ( !$this->getOption( 'activate' ) )
+        {
+            $ext[] = 'if(typeof jQuery!=\'undefined\'){';
+            $ext[] = '$(\'#tmcAct' . $genId . "').button({icons:{primary:'ui-icon-contact'},text:false});";
+            $ext[] = "function tmcActivation" . $genId . '(){$(\'#tmcAct' . $genId . "').hide();";
+            $ext[] = implode( $init ) . implode( $fix ) . '}}';
+        }
+        else
+        {
+            $ext[] = implode( $init ) . implode( $fix );
+        }
+
+        $ext[] = "</script>";
+
+        return $textarea . implode( $ext );
 
     } // dinWidgetFormTextareaTinymce::render()
 
