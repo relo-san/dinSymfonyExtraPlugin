@@ -57,6 +57,28 @@ class DinI18nHelper
 
 
     /**
+     * Get choice of translated string
+     * 
+     * @param   string  $source     Source key (catalogue.key) or simply text
+     * @param   integer $number     Number of choice
+     * @param   array   $params     Replacements in text [optional]
+     * @param   boolean $useCase    Using of external number case [optional]
+     * @return  string  Translated string
+     * @author  relo_san
+     * @since   june 13, 2010
+     */
+    static public function __c( $source, $number, $params = array(), $useCase = true )
+    {
+
+        $trans = self::__( $source, $params );
+        $choice = new sfChoiceFormat();
+        $retval = $choice->format( $trans, $useCase ? self::ncase( $number ) : $number );
+        return $retval === false ? $trans : $retval;
+
+    } // DinI18nHelper::__c()
+
+
+    /**
      * Get case for numbers
      * 
      * @param   integer $number     Integer number
@@ -72,9 +94,9 @@ class DinI18nHelper
         {
             $culture = sfContext::getInstance()->getUser()->getCulture();
         }
-        $number = intval( $number );
+        $n = intval( $number );
 
-        if ( $number == 0 )
+        if ( $n == 0 )
         {
             return 0;
         }
@@ -83,6 +105,24 @@ class DinI18nHelper
         {
             case 'ru':
             case 'uk':
+
+                $n100 = $n % 100;
+                if ( $n100 > 4 && $n100 < 21 )
+                {
+                    return 3;
+                }
+                $n10 = $n % 10;
+                if ( $n10 == 1 )
+                {
+                    return 1;
+                }
+                if ( $n10 > 1 && $n10 < 5 )
+                {
+                    return 2;
+                }
+                return 3;
+
+                /*
                 $s1 = substr( (string) $number, -1, 1 );
                 $s2 = false;
                 if ( strlen( $number ) > 1 )
@@ -98,6 +138,7 @@ class DinI18nHelper
                     return 2;
                 }
                 return 3;
+                */
                 break;
             default:
                 if ( $number == 1 )
