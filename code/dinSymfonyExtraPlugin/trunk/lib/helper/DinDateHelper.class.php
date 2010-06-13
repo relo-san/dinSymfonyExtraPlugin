@@ -106,95 +106,55 @@ class DinDateHelper
         $distInSec = floor( abs( $toTime - $fromTime ) );
 
         //TODO: add precision version
-        $string = '';
-        $params = array();
+        $number = 0;
         if ( $distInMin <= 1 )
         {
             if ( $precision == 1 )
             {
-                $string = $distInMin == 0 ? 'less than a minute' : '1 minute';
+                $string = 'minDef';
+                $number = $choice = $distInMin;
             }
             else
             {
-                if ( $distInSec <= 5 )
-                {
-                    $string = 'less than %seconds% seconds';
-                    $params['%seconds%'] = 5;
-                }
-                else if ( $distInSec <= 10 )
-                {
-                    $string = 'less than %seconds% seconds';
-                    $params['%seconds%'] = 10;
-                }
-                else if ( $distInSec <= 20 )
-                {
-                    $string = 'less than %seconds% seconds';
-                    $params['%seconds%'] = 20;
-                }
-                else if ( $distInSec <= 40 )
-                {
-                    $string = 'half a minute';
-                }
-                else if ( $distInSec <= 59 )
-                {
-                    $string = 'less than a minute';
-                }
-                else
-                {
-                    $string = '1 minute';
-                }
+                $string = $distInSec <= 40 ? 'secDef' : 'minDef';
+                $choice = ( $distInSec <= 40 || $distInSec == 60 ) ? 1 : 0;
+                $number = ( $distInSec == 60 ) ? 1 : ceil( $distInSec / 5 ) * 5;
             }
         }
         else if ( $distInMin <= 44 )
         {
-            $string = '%minutes% minutes';
-            $params['%minutes%'] = $distInMin;
-        }
-        else if ( $distInMin <= 89 )
-        {
-            $string = 'about %hours% hour';
-            $params['%hours%'] = 1;
+            $string = 'minDef';
+            $number = $distInMin;
         }
         else if ( $distInMin <= 1439 )
         {
-            $string = 'about %hours% hours';
-            $params['%hours%'] = round( $distInMin / 60 );
-        }
-        else if ( $distInMin <= 2879 )
-        {
-            $string = '%days% day';
-            $params['%days%'] = 1;
+            $string = 'hourDef';
+            $number = ( $distInMin <= 89 ) ? 1 : round( $distInMin / 60 );
         }
         else if ( $distInMin <= 43199 )
         {
-            $string = '%days% days';
-            $params['%days%'] = round( $distInMin / 1440 );
-        }
-        else if ( $distInMin <= 86399 )
-        {
-            $string = 'about %months% month';
-            $params['%months%'] = 1;
+            $string = 'dayDef';
+            $number = ( $distInMin <= 2879 ) ? 1 : round( $distInMin / 1440 );
         }
         else if ( $distInMin <= 525959 )
         {
-            $string = '%months% months';
-            $params['%months%'] = round( $distInMin / 43200 );
-        }
-        else if ( $distInMin <= 1051919 )
-        {
-            $string = 'about %years% year';
-            $params['%years%'] = 1;
+            $string = 'monDef';
+            $number = ( $distInMin <= 86399 ) ? 1 : round( $distInMin / 43200 );
         }
         else
         {
-            $string = 'over %years% years';
-            $params['%years%'] = floor( $distInMin / 525960 );
+            $string = 'yearDef';
+            $number = ( $distInMin <= 1051919 ) ? 0 : round( $distInMin / 525960 );
         }
 
         if ( sfConfig::get( 'sf_i18n' ) )
         {
-            return DinI18nHelper::__( 'datediff.' . $string, $params );
+            return DinI18nHelper::__c(
+                'datediff.' . $string, isset( $choice ) ? $choice : $number,
+                array( '%1%' => $number ), !isset( $choice )
+            );
         }
+        //TODO: add no i18n way
         return strtr( $string, $parameters );
 
     } // DinDateHelper::getDistanceOfTimeAsString()
