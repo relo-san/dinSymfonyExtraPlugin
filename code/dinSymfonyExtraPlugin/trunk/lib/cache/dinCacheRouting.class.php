@@ -535,7 +535,7 @@ class dinCacheRouting
         }
         if ( !is_numeric( $params[$key] ) )
         {
-            $key = md5( $params[$key] );
+            $key = md5( mb_strtolower( $params[$key], 'utf-8' ) );
             return substr( $key, 0, 2 ) . '/' . substr( $key, 2, 2 ) . '/' . substr( $key, 4, 2 );
         }
         return floor( $params[$key] / 1000000000 ) . '/' . floor( $params[$key] / 1000000 )
@@ -580,6 +580,11 @@ class dinCacheRouting
         if ( $key == 'id' && $ipf = $this->getRouteOption( $route, 'ipf', 1 ) )
         {
             return floor( $params[$key] / $ipf );
+        }
+
+        if ( !is_numeric( $params[$key] ) )
+        {
+            return md5( mb_strtolower( $params[$key], 'utf-8' ) );
         }
 
         return (string)$params[$key];

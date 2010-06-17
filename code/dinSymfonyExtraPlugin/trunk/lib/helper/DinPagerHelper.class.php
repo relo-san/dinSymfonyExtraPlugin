@@ -59,14 +59,14 @@ class DinPagerHelper
             // generating links
             for ( $i = $minPage; $i <= $maxPage; $i++ )
             {
-                $paging['links'][$i]['uri'] = $uri . $i;
+                $paging['links'][$i]['uri'] = ( $i == 1 && isset( $params['first_uri'] ) ) ? $params['first_uri'] : $uri . $i;
                 $paging['links'][$i]['name'] = $i;
                 $paging['links'][$i]['current'] = $i == $current ? true : false;
             }
             if ( !isset( $paging['links'][1] ) )
             {
                 $paging['haveFirstPage'] = true;
-                $paging['firstPageUri'] = $uri . '1';
+                $paging['firstPageUri'] = isset( $params['first_uri'] ) ? $params['first_uri'] : $uri . '1';
                 $paging['firstPageName'] = '1';
             }
             if ( !isset( $paging['links'][2] ) )
