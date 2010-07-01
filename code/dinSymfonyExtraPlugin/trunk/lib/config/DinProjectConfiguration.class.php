@@ -11,7 +11,7 @@
 /**
  * DinProjectConfiguration
  * 
- * @package     lib.config
+ * @package     dinSymfonyExtraPlugin.lib.config
  * @signed      5
  * @signer      relo_san
  * @author      relo_san [http://relo-san.com/]
@@ -24,9 +24,9 @@ class DinProjectConfiguration extends sfProjectConfiguration
     /**
      * __construct
      * 
-     * @return  
+     * @return  void
      * @author  relo_san
-     * @since   12.03.2010
+     * @since   march 12, 2010
      */
     public function __construct( $rootDir = null, sfEventDispatcher $dispatcher = null )
     {
@@ -39,6 +39,24 @@ class DinProjectConfiguration extends sfProjectConfiguration
         require_once( $pldir . '/dinSymfonyExtraPlugin/lib/config/dinFactoryConfigHandler.class.php' );
 
     } // DinProjectConfiguration::__construct()
+
+
+    /**
+     * Setup configuration
+     * 
+     * @return  
+     * @author  relo_san
+     * @since   june 27, 2010
+     */
+    public function preConfigureDoctrinePlugin( $options = array() )
+    {
+
+        sfConfig::set( 'doctrine_model_builder_options', array_merge(
+            array( 'baseTableClassName' => 'DinDoctrineTable', 'baseClassName' => 'DinDoctrineRecord' ),
+            $options
+        ) );
+
+    } // DinProjectConfiguration::setup()
 
 
     /**
