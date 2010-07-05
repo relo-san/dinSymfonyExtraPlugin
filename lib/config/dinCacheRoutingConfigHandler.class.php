@@ -11,12 +11,9 @@
 /**
  * Cache routing config handler
  * 
- * @package     dinSymfonyExtraPlugin.lib.config
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       march 12, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.config
+ * @author      Nicolay N.Zyk <relo.san.pub@gmail.com>
  */
 class dinCacheRoutingConfigHandler extends sfYamlConfigHandler
 {
@@ -26,8 +23,6 @@ class dinCacheRoutingConfigHandler extends sfYamlConfigHandler
      * 
      * @param   array   $configFiles    An array of absolute filesystem path to a configuration file
      * @return  string  Data to be written to a cache file
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function execute( $configFiles )
     {
@@ -46,7 +41,7 @@ class dinCacheRoutingConfigHandler extends sfYamlConfigHandler
         foreach ( $config['links'] as $model => $routes )
         {
             $data[] = sprintf( '$this->links[\'%s\'] = %s;', $model, $this->asPhp( $routes ) );
-            $data[] = sprintf( '$this->trans[\'%s\'] = %s;', $model, Doctrine::getTable( $model )->getPluginConfig()->isI18n( $model ) ? 'true' : 'false' );
+            $data[] = sprintf( '$this->trans[\'%s\'] = %s;', $model, Doctrine::getTable( $model )->hasRelation( 'Translation' ) ? 'true' : 'false' );
         }
 
         return sprintf(
@@ -61,8 +56,6 @@ class dinCacheRoutingConfigHandler extends sfYamlConfigHandler
      * Get factory options
      * 
      * @return  string  Config factory options
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function getOptions()
     {
@@ -80,8 +73,6 @@ class dinCacheRoutingConfigHandler extends sfYamlConfigHandler
      * 
      * @param   array   $configFiles    An array of absolute filesystem path to a configuration file
      * @return  array   Parsed routes config
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function parse( $configFiles )
     {
@@ -105,8 +96,6 @@ class dinCacheRoutingConfigHandler extends sfYamlConfigHandler
      * 
      * @param   array   $array  Config array
      * @return  string  Php code
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function asPhp( $array )
     {

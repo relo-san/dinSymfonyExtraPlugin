@@ -11,12 +11,9 @@
 /**
  * DinPluginConfiguration
  * 
- * @package     lib.config
- * @signed      3
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       december 25, 2009
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.config
+ * @author      Nicolay N.Zyk <relo.san.pub@gmail.com>
  */
 class DinPluginConfiguration extends sfPluginConfiguration
 {
@@ -34,12 +31,11 @@ class DinPluginConfiguration extends sfPluginConfiguration
             'i18nDisabledColumns'   => array()
         );
 
+
     /**
      * Initialize plugin configuration
      * 
      * @return  void
-     * @author  relo_san
-     * @since   december 25, 2009
      */
     public function initialize()
     {

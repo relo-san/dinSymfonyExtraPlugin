@@ -11,12 +11,9 @@
 /**
  * Base actions class
  * 
- * @package     dinSymfonyExtraPlugin.lib
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       january 7, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.actions
+ * @author      Nicolay N.Zyk <relo.san.pub@gmail.com>
  */
 class dinActions extends sfActions
 {
@@ -26,15 +23,13 @@ class dinActions extends sfActions
      * 
      * @param   string  $template   Partial name
      * @param   array   $vars       Template variables [optional]
-     * @return  sfView::NONE
-     * @author  relo_san
-     * @since   january 6, 2010
+     * @return  string  sfView::NONE
      * @see     sfAction::renderPartial()
      */
     public function renderPartial( $template, $vars = null )
     {
 
-        return $this->renderText( Partial::get( $template, $vars ) );
+        return $this->renderText( DinPartialHelper::get( $template, $vars ) );
 
     } // dinActions::renderPartial()
 
@@ -44,8 +39,6 @@ class dinActions extends sfActions
      * 
      * @param   string  $defaultUrl Default url
      * @return  void
-     * @author  relo_san
-     * @since   january 7, 2010
      */
     public function redirectToReferer( $defaultUrl )
     {
@@ -63,8 +56,6 @@ class dinActions extends sfActions
      * @param   string  $template   template name [optional]
      * @param   string  $type       Return type [optional]
      * @return  string  sfView name constant or partial
-     * @author  relo_san
-     * @since   january 7, 2010
      */
     public function prepareOutput( $partial, $template = null, $type = sfView::SUCCESS )
     {
@@ -98,8 +89,6 @@ class dinActions extends sfActions
      * @param   string  $text       Text for render
      * @param   string  $url        Uri or url
      * @return  string  sfView name constant or partial
-     * @author  relo_san
-     * @since   january 10, 2010
      */
     public function renderTextThanRedirect( $condition, $text, $url )
     {
@@ -110,7 +99,7 @@ class dinActions extends sfActions
         }
         $this->redirect( $url );
 
-    } // dinActions::renderTextIf()
+    } // dinActions::renderTextThanRedirect()
 
 
     /**
@@ -119,8 +108,6 @@ class dinActions extends sfActions
      * @param   string  $param      Request referer parameter [optional]
      * @param   mixed   $default    Default value [optional]
      * @return  mixed   Array of referer parameters or value of request referer parameter
-     * @author  relo_san
-     * @since   january 7, 2010
      */
     public function getRefInfo( $param = null, $default = null )
     {
@@ -137,8 +124,6 @@ class dinActions extends sfActions
      * @param   string  $param      Parameter for saving [optional]
      * @param   integer $duration   Time to live storage [optional]
      * @return  void
-     * @author  relo_san
-     * @since   january 7, 2010
      */
     public function addSISRefInfo( $key, $param = null, $duration = 86400 )
     {
@@ -154,8 +139,6 @@ class dinActions extends sfActions
      * @param   string  $key        Key for storaging
      * @param   mixed   $default    Default value [optional]
      * @return  string  Value for key
-     * @author  relo_san
-     * @since   january 7, 2010
      */
     public function getSISOnce( $key, $default = null )
     {
@@ -171,8 +154,6 @@ class dinActions extends sfActions
      * @param   string  $name   Route name
      * @param   array   $params Route params
      * @return  void
-     * @author  relo_san
-     * @since   february 10, 2010
      */
     public function changeRoute( $name, $params )
     {

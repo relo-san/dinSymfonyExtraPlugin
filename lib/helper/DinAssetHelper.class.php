@@ -11,13 +11,9 @@
 /**
  * Base asset helper
  * 
- * @package     dinSymfonyExtraPlugin.lib.helper
- * @subpackage  DinAssetHelper
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       january 19, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.helper
+ * @author      Nicolay N.Zyk <relo.san.pub@gmail.com>
  */
 class DinAssetHelper
 {
@@ -29,12 +25,10 @@ class DinAssetHelper
     /**
      * Returns a <link> tag for discovery use to auto-detect a RSS or ATOM feed
      * 
-     * @param   string  $type       Type of feed [optional]
+     * @param   string  $type       Type of feed [optional, default to rss]
      * @param   string  $uri        'module/action' or '@rule' of the action [optional]
      * @param   array   $options    Tag options [optional]
      * @return  string  Formatted xhtml tag
-     * @author  relo_san
-     * @since   january 19, 2010
      */
     static public function discovery( $type = self::DISC_RSS, $uri = '', $options = array() )
     {
@@ -56,8 +50,6 @@ class DinAssetHelper
      * @param   string  $position   loading position (first, last, '') [optional]
      * @param   array   $options    Tag options [optional]
      * @return  void
-     * @author  relo_san
-     * @since   january 19, 2010
      * @see     sfWebResponse::addStylesheet()
      */
     static public function useCss( $css, $position = '', $options = array() )
@@ -75,8 +67,6 @@ class DinAssetHelper
      * @param   string  $position   loading position (first, last, '') [optional]
      * @param   array   $options    Tag options [optional]
      * @return  void
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function useDynCss( $css, $position = '', $options = array() )
     {
@@ -94,8 +84,6 @@ class DinAssetHelper
      * @param   string  $position   loading position (first, last, '') [optional]
      * @param   array   $options    Tag options [optional]
      * @return  void
-     * @author  relo_san
-     * @since   january 19, 2010
      * @see     sfWebResponse::addJavascript()
      */
     static public function useJs( $js, $position = '', $options = array() )
@@ -113,8 +101,6 @@ class DinAssetHelper
      * @param   string  $position   loading position (first, last, '') [optional]
      * @param   array   $options    Tag options [optional]
      * @return  void
-     * @author  relo_san
-     * @since   january 21, 2010
      * @see     sfWebResponse::addJavascript()
      */
     static public function useDynJs( $js, $position = '', $options = array() )
@@ -130,8 +116,6 @@ class DinAssetHelper
      * Prints a set of <meta> tags according to the response attributes
      * 
      * @return  void
-     * @author  relo_san
-     * @since   january 19, 2010
      * @see     sfWebResponse::addMeta()
      */
     static public function includeMetas()
@@ -149,8 +133,6 @@ class DinAssetHelper
      * Prints a set of <meta http-equiv> tags according to the response attributes
      * 
      * @return  void
-     * @author  relo_san
-     * @since   january 20, 2010
      */
     static public function includeHttpMetas()
     {
@@ -167,8 +149,6 @@ class DinAssetHelper
      * Prints title
      * 
      * @return  void
-     * @author  relo_san
-     * @since   january 20, 2010
      */
     static public function includeTitle()
     {
@@ -182,8 +162,6 @@ class DinAssetHelper
      * Prints <script> tags for all javascripts configured in view.yml or added to the response object
      * 
      * @return  void
-     * @author  relo_san
-     * @since   january 20, 2010
      */
     static public function includeJs()
     {
@@ -202,8 +180,6 @@ class DinAssetHelper
      * Prints <link> tags for all stylesheets configured in view.yml or added to the response object
      * 
      * @return  void
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function includeCss()
     {
@@ -224,8 +200,6 @@ class DinAssetHelper
      * @param   string  $source     Asset name
      * @param   boolean $absolute   Is absolute path [optional]
      * @return  string  Computed path
-     * @author  relo_san
-     * @since   january 20, 2010
      */
     static public function jsPath( $source, $absolute = false )
     {
@@ -241,8 +215,6 @@ class DinAssetHelper
      * @param   string  $source     Asset name
      * @param   boolean $absolute   Is absolute path [optional]
      * @return  string  Computed path
-     * @author  relo_san
-     * @since   january 20, 2010
      */
     static public function cssPath( $source, $absolute = false )
     {
@@ -258,8 +230,6 @@ class DinAssetHelper
      * @param   string  $source     Asset name
      * @param   boolean $absolute   Is absolute path [optional]
      * @return  string  Computed path
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function imgPath( $source, $absolute = false )
     {
@@ -277,8 +247,6 @@ class DinAssetHelper
      * @param   string  $source     Asset name
      * @param   array   $options    Tag options
      * @return  Formatted xhtml tag
-     * @author  relo_san
-     * @since   january 20, 2010
      */
     static public function jsTag( $source, $options )
     {
@@ -304,8 +272,6 @@ class DinAssetHelper
      * @param   string  $source     Asset name
      * @param   array   $options    Tag options
      * @return  Formatted xhtml tag
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function cssTag( $source, $options )
     {
@@ -333,8 +299,6 @@ class DinAssetHelper
      * @param   string  $source     Asset name
      * @param   array   $options    Tag options [optional]
      * @return  Formatted xhtml tag
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function imgTag( $source, $options = array() )
     {
@@ -374,10 +338,8 @@ class DinAssetHelper
      * @param   string  $ext        File extension
      * @param   boolean $absolute   Is absolute path [optional]
      * @return  string  Computed path
-     * @author  relo_san
-     * @since   january 20, 2010
      */
-    static private function cpp( $source, $dir, $ext, $absolute = false )
+    static protected function cpp( $source, $dir, $ext, $absolute = false )
     {
 
         if ( strpos( $source, '://' ) )
@@ -424,10 +386,8 @@ class DinAssetHelper
      * Dynamic path
      * 
      * @return  string  Computed url
-     * @author  relo_san
-     * @since   january 21, 2010
      */
-    static private function dp( $uri, $format, $absolute = false )
+    static protected function dp( $uri, $format, $absolute = false )
     {
 
         return Url::url(
@@ -442,10 +402,8 @@ class DinAssetHelper
      * 
      * @param   string  $string Attributes in string
      * @return  array   Attributes
-     * @author  relo_san
-     * @since   january 20, 2010
      */
-    static private function parseAttr( $string )
+    static protected function parseAttr( $string )
     {
 
         return is_array( $string ) ? $string : sfToolkit::stringToArray( $string );

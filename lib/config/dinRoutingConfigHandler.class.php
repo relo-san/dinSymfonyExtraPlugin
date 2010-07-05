@@ -11,12 +11,9 @@
 /**
  * Routing config handler
  * 
- * @package     dinSymfonyExtraPlugin.lib.config
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       january 3, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.config
+ * @author      Nicolay N.Zyk <relo.san.pub@gmail.com>
  */
 class dinRoutingConfigHandler extends sfRoutingConfigHandler
 {
@@ -26,8 +23,6 @@ class dinRoutingConfigHandler extends sfRoutingConfigHandler
      * 
      * @param   array   $configFiles    An array of absolute filesystem path to a configuration file
      * @return  string  Data to be written to a cache file
-     * @author  relo_san
-     * @since   january 3, 2010
      * @see     sfRoutingConfigHandler::execute()
      */
     public function execute( $configFiles )

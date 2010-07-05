@@ -8,7 +8,7 @@
 #
 # @package      dinSymfonyExtraPlugin
 # @subpackage   config
-# @author       relo_san [http://relo-san.com/]
+# @author       Nicolay N.Zyk <relo.san.pub@gmail.com>
 
 routes:
     page:

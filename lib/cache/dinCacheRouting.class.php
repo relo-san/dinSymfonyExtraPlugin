@@ -29,7 +29,7 @@ class dinCacheRouting
      * Constructor
      * 
      * @param   sfEventDispatcher   $dispatcher
-     * @param   array   $options    Cache routing options [optional]
+     * @param   array               $options    Cache routing options [optional]
      * @return  void
      */
     public function __construct( sfEventDispatcher $dispatcher, $options = array() )
@@ -37,8 +37,8 @@ class dinCacheRouting
 
         $this->dispatcher = $dispatcher;
         $this->options = array_merge( array(
-            'defaults'                      => array(),
-            'load_configuration'            => false
+            'defaults'              => array(),
+            'load_configuration'    => false
         ), $options );
 
 
@@ -441,7 +441,7 @@ class dinCacheRouting
      * 
      * @param   string  $route      Route name
      * @param   string  $optionName Option name
-     * @param   mixed   $default    Default value
+     * @param   mixed   $default    Default value [optional]
      * @return  mixed   Option for route
      */
     protected function getRouteOption( $route, $optionName, $default = null )

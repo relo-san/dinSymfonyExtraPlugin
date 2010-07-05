@@ -11,12 +11,9 @@
 /**
  * Response class for web interfaces
  * 
- * @package     dinSymfonyExtraPlugin.lib.config
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       may 22, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.config
+ * @author      Nicolay N.Zyk <relo.san.pub@gmail.com>
  */
 class dinWebResponse extends sfWebResponse
 {
@@ -30,9 +27,9 @@ class dinWebResponse extends sfWebResponse
     /**
      * initialize
      * 
-     * @return  
-     * @author  relo_san
-     * @since   may 22, 2010
+     * @param   sfEventDispatcher   $dispatcher
+     * @param   array               $options    Response options [optional]
+     * @return  void
      */
     public function initialize( sfEventDispatcher $dispatcher, $options = array() )
     {
@@ -56,8 +53,6 @@ class dinWebResponse extends sfWebResponse
      * Get title
      * 
      * @return  string  Title
-     * @author  relo_san
-     * @since   may 22, 2010
      */
     public function getTitle()
     {
@@ -71,8 +66,6 @@ class dinWebResponse extends sfWebResponse
      * Build title
      * 
      * @return  string  Title
-     * @author  relo_san
-     * @since   may 22, 2010
      */
     public function buildTitle()
     {
@@ -99,8 +92,6 @@ class dinWebResponse extends sfWebResponse
      * 
      * @param   string  $format Title format
      * @return  dinWebResponse
-     * @author  relo_san
-     * @since   may 22, 2010
      */
     public function setTitleFormat( $format )
     {
@@ -116,8 +107,6 @@ class dinWebResponse extends sfWebResponse
      * 
      * @param   string  $delimiter  Title delimiter
      * @return  dinWebResponse
-     * @author  relo_san
-     * @since   may 22, 2010
      */
     public function setTitleDelimiter( $delimiter )
     {
@@ -135,8 +124,6 @@ class dinWebResponse extends sfWebResponse
      * @param   string  $value  Value of title part
      * @param   boolean $isI18n Is part need to translate [optional, default false]
      * @return  dinWebResponse
-     * @author  relo_san
-     * @since   may 22, 2010
      */
     public function setTitlePart( $name, $value, $isI18n = false )
     {

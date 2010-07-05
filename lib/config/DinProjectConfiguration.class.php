@@ -11,12 +11,9 @@
 /**
  * DinProjectConfiguration
  * 
- * @package     dinSymfonyExtraPlugin.lib.config
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       december 25, 2009
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.config
+ * @author      Nicolay N.Zyk <relo.san.pub@gmail.com>
  */
 class DinProjectConfiguration extends sfProjectConfiguration
 {
@@ -24,9 +21,9 @@ class DinProjectConfiguration extends sfProjectConfiguration
     /**
      * __construct
      * 
+     * @param   string  $rootDir    Root project directory [optional]
+     * @param   sfEventDispatcher   [optional]
      * @return  void
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function __construct( $rootDir = null, sfEventDispatcher $dispatcher = null )
     {
@@ -44,9 +41,8 @@ class DinProjectConfiguration extends sfProjectConfiguration
     /**
      * Setup configuration
      * 
-     * @return  
-     * @author  relo_san
-     * @since   june 27, 2010
+     * @param   array   $options    Doctrine configuration options
+     * @return  void
      */
     public function preConfigureDoctrinePlugin( $options = array() )
     {
@@ -63,8 +59,6 @@ class DinProjectConfiguration extends sfProjectConfiguration
      * Load plugins
      * 
      * @return  void
-     * @author  relo_san
-     * @since   december 25, 2009
      */
     public function loadPlugins()
     {
