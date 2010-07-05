@@ -11,12 +11,9 @@
 /**
  * Class for managing cache routes
  * 
- * @package     dinSymfonyExtraPlugin.lib.cache
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       march 12, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.cache
+ * @author      Nicolay N.Zyk <relo.san.pub@gmail.com>
  */
 class dinCacheRouting
 {
@@ -34,8 +31,6 @@ class dinCacheRouting
      * @param   sfEventDispatcher   $dispatcher
      * @param   array   $options    Cache routing options [optional]
      * @return  void
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function __construct( sfEventDispatcher $dispatcher, $options = array() )
     {
@@ -56,8 +51,6 @@ class dinCacheRouting
      * Load configuration
      * 
      * @return  void
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function loadConfiguration()
     {
@@ -76,8 +69,6 @@ class dinCacheRouting
      * Get routes config
      * 
      * @return  array   Loaded routes config
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function getRoutesConfig()
     {
@@ -95,8 +86,6 @@ class dinCacheRouting
      * @param   string  $model  Associated model name
      * @param   array   $params Query params [optional]
      * @return  mixed   Cached content
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function getContent( $route, $model, $params = array() )
     {
@@ -148,8 +137,6 @@ class dinCacheRouting
      * @param   string  $model  Associated model name
      * @param   array   $params Query params
      * @return  mixed   Cached result
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function getDataContent( $route, $model, $params )
     {
@@ -191,8 +178,6 @@ class dinCacheRouting
      * @param   string  $model  Associated model name
      * @param   array   $params Query params
      * @return  mixed   Cached result
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function getChoicesContent( $route, $model, $params )
     {
@@ -236,8 +221,6 @@ class dinCacheRouting
      * @param   string  $model  Associated model name
      * @param   array   $params Query params
      * @return  mixed   Cached result
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function getCustomContent( $route, $model, $params )
     {
@@ -262,8 +245,6 @@ class dinCacheRouting
      * @param   string  $model  Associated model name
      * @param   array   $params Query params
      * @return  mixed   Cached result
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function getPreparedContent( $route, $model, $params )
     {
@@ -287,8 +268,6 @@ class dinCacheRouting
      * @param   string  $model  Associated model name
      * @param   array   $params Route params [optional]
      * @return  void
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function setContent( $route, $data, $model, $params = array() )
     {
@@ -311,8 +290,6 @@ class dinCacheRouting
      * 
      * @param   string  $route  Route name
      * @return  string  Query method name
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function getQueryMethod( $route )
     {
@@ -329,8 +306,6 @@ class dinCacheRouting
      * @param   string  $model  Associated model name
      * @param   array   $params Route params [optional]
      * @return  void
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function removeCacheForModel( $model, array $params = array() )
     {
@@ -358,8 +333,6 @@ class dinCacheRouting
      * @param   string  $route  Route name
      * @param   array   $params Route params
      * @return  void
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function removeCacheForRoute( $route, $params )
     {
@@ -383,8 +356,6 @@ class dinCacheRouting
      * @param   string  $action Action name
      * @param   array   $params Route params
      * @return  object  Cache driver object (default sfFileCache)
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function getCacheDriver( $route, $action, $params )
     {
@@ -406,8 +377,6 @@ class dinCacheRouting
      * @param   string  $action Action name
      * @param   array   $params Route params
      * @return  string  Cache key
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function getCacheKey( $route, $action, $params )
     {
@@ -441,8 +410,6 @@ class dinCacheRouting
      * @param   string  $action Action name
      * @param   array   $params Route params
      * @return  string  Cache path
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     public function getCachePath( $route, $action, $params )
     {
@@ -476,8 +443,6 @@ class dinCacheRouting
      * @param   string  $optionName Option name
      * @param   mixed   $default    Default value
      * @return  mixed   Option for route
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function getRouteOption( $route, $optionName, $default = null )
     {
@@ -498,8 +463,6 @@ class dinCacheRouting
      * @param   string  $part   Mask part of path
      * @param   array   $params Route params
      * @return  string  Part of path
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function processPathPart( $route, $part, $params )
     {
@@ -551,8 +514,6 @@ class dinCacheRouting
      * @param   string  $part   Mask part of key
      * @param   array   $params Route params
      * @return  string  Part of key
-     * @author  relo_san
-     * @since   march 12, 2010
      */
     protected function processKeyPart( $route, $part, $params )
     {
@@ -597,8 +558,6 @@ class dinCacheRouting
      * 
      * @param   array   Source array [optional]
      * @return  array   Result array with moved translations
-     * @author  relo_san
-     * @since   march 18, 2010
      */
     public function prepareTranslations( array $array = array() )
     {
