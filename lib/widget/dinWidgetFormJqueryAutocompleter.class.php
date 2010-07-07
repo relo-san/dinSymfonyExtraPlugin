@@ -9,14 +9,11 @@
  */
 
 /**
- * dinWidgetFormJqueryAutocompleter
+ * Widget for autocomplete fields with jQuery
  * 
- * @package     dinSymfonyExtraPlugin.lib.widget
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       february 8, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.widget
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class dinWidgetFormJqueryAutocompleter extends sfWidgetFormInput
 {
@@ -27,9 +24,6 @@ class dinWidgetFormJqueryAutocompleter extends sfWidgetFormInput
      * @param   array   $options    An array of options [optional]
      * @param   array   $attributes An array of default HTML attributes [optional]
      * @return  void
-     * @author  relo_san
-     * @since   february 8, 2010
-     * @see     sfWidgetForm
      */
     protected function configure( $options = array(), $attributes = array() )
     {
@@ -48,8 +42,6 @@ class dinWidgetFormJqueryAutocompleter extends sfWidgetFormInput
      * 
      * @param   mixed   $value  Source value
      * @return  string  Visible value
-     * @author  relo_san
-     * @since   march 7, 2010
      */
     protected function getVisibleValue( $value )
     {
@@ -69,8 +61,6 @@ class dinWidgetFormJqueryAutocompleter extends sfWidgetFormInput
      * @param   array   $attributes HTML attributes [optional]
      * @param   array   $errors     Errors for the field [optional]
      * @return  string  XHTML compliant tag
-     * @author  relo_san
-     * @since   february 8, 2010
      */
     public function render( $name, $value = null, $attributes = array(), $errors = array() )
     {

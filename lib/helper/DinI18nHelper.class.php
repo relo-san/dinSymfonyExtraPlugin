@@ -11,13 +11,9 @@
 /**
  * Base i18n helper
  * 
- * @package     dinSymfonyExtraPlugin.lib.helper
- * @subpackage  DinI18nHelper
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       december 26, 2009
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.helper
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class DinI18nHelper
 {
@@ -28,8 +24,6 @@ class DinI18nHelper
      * @param   string  $source Source key (catalogue.key) or simply text
      * @param   array   $params Replacements in text [optional]
      * @return  string  Translated string
-     * @author  relo_san
-     * @since   december 26, 2009
      */
     static public function __( $source, $params = array() )
     {
@@ -64,8 +58,6 @@ class DinI18nHelper
      * @param   array   $params     Replacements in text [optional]
      * @param   boolean $useCase    Using of external number case [optional]
      * @return  string  Translated string
-     * @author  relo_san
-     * @since   june 13, 2010
      */
     static public function __c( $source, $number, $params = array(), $useCase = true )
     {
@@ -84,8 +76,6 @@ class DinI18nHelper
      * @param   integer $number     Integer number
      * @param   string  $culture    Culture identifier [optional]
      * @return  string  Case code for key
-     * @author  relo_san
-     * @since   december 26, 2009
      */
     static public function ncase( $number, $culture = null )
     {
@@ -105,7 +95,6 @@ class DinI18nHelper
         {
             case 'ru':
             case 'uk':
-
                 $n100 = $n % 100;
                 if ( $n100 > 4 && $n100 < 21 )
                 {
@@ -121,32 +110,12 @@ class DinI18nHelper
                     return 2;
                 }
                 return 3;
-
-                /*
-                $s1 = substr( (string) $number, -1, 1 );
-                $s2 = false;
-                if ( strlen( $number ) > 1 )
-                {
-                    $s2 = substr( (string) $number, -2, 1 );
-                }
-                if ( $s1 == 1 && $s2 != 1 )
-                {
-                    return 1;
-                }
-                if ( $s1 > 1 && $s1 < 5 && $s2 != 1 )
-                {
-                    return 2;
-                }
-                return 3;
-                */
-                break;
             default:
                 if ( $number == 1 )
                 {
                     return 1;
                 }
                 return 2;
-                break;
         }
 
     } // DinI18nHelper::ncase()

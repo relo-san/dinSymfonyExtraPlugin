@@ -11,13 +11,9 @@
 /**
  * Base date helper
  * 
- * @package     dinSymfonyExtraPlugin.lib.helper
- * @subpackage  DinDateHelper
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       december 25, 2009
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.helper
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class DinDateHelper
 {
@@ -41,8 +37,6 @@ class DinDateHelper
      * @param   string  $culture    Culture identifier [optional]
      * @param   string  $charset    Output charset [optional]
      * @return  string  Formatted string
-     * @author  relo_san
-     * @since   december 29, 2009
      */
     static public function formatDate( $date, $format = 'd', $culture = null, $charset = null )
     {
@@ -96,8 +90,6 @@ class DinDateHelper
      * @param   integer $toTime     End unix timestamp
      * @param   integer $precision  Precision modifier [optional]
      * @return  string  Formatted string
-     * @author  relo_san
-     * @since   december 25, 2009
      */
     static public function getDistanceOfTimeAsString( $fromTime, $toTime, $precision = self::PRECISION_RELATIVE_DEF )
     {
@@ -149,7 +141,7 @@ class DinDateHelper
 
         if ( sfConfig::get( 'sf_i18n' ) )
         {
-            return DinI18nHelper::__c(
+            return I18n::__c(
                 'datediff.' . $string, isset( $choice ) ? $choice : $number,
                 array( '%1%' => $number ), !isset( $choice )
             );

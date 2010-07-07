@@ -11,13 +11,9 @@
 /**
  * Base tag helper
  * 
- * @package     dinSymfonyExtraPlugin.lib.helper
- * @subpackage  DinTagHelper
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       january 21, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.helper
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class DinTagHelper
 {
@@ -29,8 +25,6 @@ class DinTagHelper
      * @param   array   $options    Tag options [optional]
      * @param   boolean $open       True to leave tag open [optional]
      * @return  string  Formatted xhtml tag
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function tag( $name, $options = array(), $open = false )
     {
@@ -52,8 +46,6 @@ class DinTagHelper
      * @param   string  $content    Tag content [optional]
      * @param   array   $options    Tag options [optional]
      * @return  string  Formatted xhtml tag
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function ctag( $name, $content = '', $options = array() )
     {
@@ -73,8 +65,6 @@ class DinTagHelper
      * 
      * @param   string  $content    Internal content
      * @return  string  Formatted xhtml tag
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function cdata( $content )
     {
@@ -90,8 +80,6 @@ class DinTagHelper
      * @param   string  $condition  Condition
      * @param   string  $content    Internal content
      * @return  string  Formatted xhtml tag
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function cc( $condition, $content )
     {
@@ -106,8 +94,6 @@ class DinTagHelper
      * 
      * @param   string  $js Javascript code [optional]
      * @return  string  Escaped code
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function escapeJs( $js = '' )
     {
@@ -122,8 +108,6 @@ class DinTagHelper
      * 
      * @param   string  $html   String for escaping
      * @return  string  Escaped string
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function escape( $html )
     {
@@ -140,8 +124,6 @@ class DinTagHelper
      * 
      * @param   string  $escaped    Escaped string
      * @return  string  Fixed escaped string
-     * @author  relo_san
-     * @since   january 21, 2010
      */
     static public function fixEscape( $escaped )
     {
@@ -156,10 +138,8 @@ class DinTagHelper
      * 
      * @param   array   $options    Tag options [optional]
      * @return  string  Options for tag
-     * @author  relo_san
-     * @since   january 21, 2010
      */
-    static private function to( $options = array() )
+    static protected function to( $options = array() )
     {
 
         $options = self::parseAttr( $options );
@@ -180,10 +160,8 @@ class DinTagHelper
      * @param   string  $name       Option name
      * @param   string  $default    Default value [optional]
      * @return  string  Option value
-     * @author  relo_san
-     * @since   january 21, 2010
      */
-    static private function go( &$options, $name, $default = null )
+    static protected function go( &$options, $name, $default = null )
     {
 
         if ( array_key_exists( $name, $options ) )
@@ -206,10 +184,8 @@ class DinTagHelper
      * 
      * @param   array   $options    Tag options
      * @return  array   Formatted options
-     * @author  relo_san
-     * @since   january 21, 2010
      */
-    static private function co( $options )
+    static protected function co( $options )
     {
 
         $options = self::parseAttr( $options );
@@ -238,10 +214,8 @@ class DinTagHelper
      * 
      * @param   string  $string Attributes in string
      * @return  array   Attributes
-     * @author  relo_san
-     * @since   january 20, 2010
      */
-    static private function parseAttr( $string )
+    static protected function parseAttr( $string )
     {
 
         return is_array( $string ) ? $string : sfToolkit::stringToArray( $string );

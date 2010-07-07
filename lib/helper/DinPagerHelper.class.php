@@ -11,13 +11,9 @@
 /**
  * Base pager helper
  * 
- * @package     dinSymfonyExtraPlugin.lib.helper
- * @subpackage  DinPagerHelper
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       april 30, 2009
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.helper
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class DinPagerHelper
 {
@@ -29,8 +25,6 @@ class DinPagerHelper
      * @param   string  $uri    Uri
      * @param   array   $params Custom params [optional]
      * @return  array   Pager template vars
-     * @author  relo_san
-     * @since   april 30, 2009
      */
     static public function prepare( $pager, $uri, $params = array() )
     {

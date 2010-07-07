@@ -11,12 +11,9 @@
 /**
  * Widget for TinyMCE editor
  * 
- * @package     dinSymfonyExtraPlugin.lib.widget
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       february 9, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.widget
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class dinWidgetFormTextareaTinymce extends sfWidgetFormTextarea
 {
@@ -27,9 +24,6 @@ class dinWidgetFormTextareaTinymce extends sfWidgetFormTextarea
      * @param   array   $options    An array of options [optional]
      * @param   array   $attributes An array of default HTML attributes [optional]
      * @return  void
-     * @author  relo_san
-     * @since   february 9, 2010
-     * @see     sfWidgetForm
      */
     protected function configure( $options = array(), $attributes = array() )
     {
@@ -50,9 +44,6 @@ class dinWidgetFormTextareaTinymce extends sfWidgetFormTextarea
      * @param   array   $attributes HTML attributes [optional]
      * @param   array   $errors     Field errors [optional]
      * @return  string  XHTML compliant tag
-     * @author  relo_san
-     * @since   february 9, 2010
-     * @see     sfWidgetForm
      */
     public function render( $name, $value = null, $attributes = array(), $errors = array() )
     {

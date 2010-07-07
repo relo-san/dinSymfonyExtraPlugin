@@ -11,12 +11,9 @@
 /**
  * Validator for phone numbers
  * 
- * @package     dinSymfonyExtraPlugin.lib.validator
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       april 5, 2009
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.validator
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class dinValidatorPhone extends sfValidatorBase
 {
@@ -27,9 +24,6 @@ class dinValidatorPhone extends sfValidatorBase
      * @param   array   Validator options [optional]
      * @param   array   Validator messages [optional]
      * @return  void
-     * @author  relo_san
-     * @since   april 5, 2009
-     * @see     sfValidatorBase
      */
     protected function configure( $options = array(), $messages = array() )
     {
@@ -52,9 +46,6 @@ class dinValidatorPhone extends sfValidatorBase
      * 
      * @param   mixed   $value  Input value
      * @return  mixed   Cleaned value
-     * @author  relo_san
-     * @since   april 5, 2009
-     * @see     sfValidatorBase
      */
     protected function doClean( $value )
     {

@@ -11,12 +11,9 @@
 /**
  * Widget for selects and multiple selects throw Jquery
  * 
- * @package     dinSymfonyExtraPlugin.lib.widget
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       february 21, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.widget
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class dinWidgetFormJqueryChoice extends sfWidgetFormChoiceBase
 {
@@ -27,8 +24,6 @@ class dinWidgetFormJqueryChoice extends sfWidgetFormChoiceBase
      * @param   array   $options        Widget options [optional]
      * @param   array   $attributes     Render attributes [optional]
      * @return  void
-     * @author  relo_san
-     * @since   february 21, 2010
      */
     protected function configure( $options = array(), $attributes = array() )
     {
@@ -60,8 +55,6 @@ class dinWidgetFormJqueryChoice extends sfWidgetFormChoiceBase
      * @param   array   $attributes Render attributes [optional]
      * @param   array   $errors     Errors for the widget [optional]
      * @return  string  Rendered widget
-     * @author  relo_san
-     * @since   february 21, 2010
      */
     public function render( $name, $value = null, $attributes = array(), $errors = array() )
     {
@@ -108,8 +101,6 @@ class dinWidgetFormJqueryChoice extends sfWidgetFormChoiceBase
             ) );
         }
 
-        
-
     } // dinWidgetFormJqueryChoice::render()
 
 
@@ -118,8 +109,6 @@ class dinWidgetFormJqueryChoice extends sfWidgetFormChoiceBase
      * 
      * @param   string  $name   Element name
      * @return  string  HTML code
-     * @author  relo_san
-     * @since   february 21, 2010
      */
     public function renderHeader( $name )
     {
@@ -149,8 +138,6 @@ class dinWidgetFormJqueryChoice extends sfWidgetFormChoiceBase
      * @param   array   $list       List of choices
      * @param   boolean $selected   Selected list?
      * @return  string  HTML code
-     * @author  relo_san
-     * @since   february 21, 2010
      */
     public function renderList( $name, $sid, $list, $selected = false )
     {
@@ -174,8 +161,6 @@ class dinWidgetFormJqueryChoice extends sfWidgetFormChoiceBase
      * 
      * @param   string  $name   Element name
      * @return  string  HTML container with JS
-     * @author  relo_san
-     * @since   february 21, 2010
      */
     public function getJs( $name )
     {
@@ -184,7 +169,7 @@ class dinWidgetFormJqueryChoice extends sfWidgetFormChoiceBase
         {
             $tname = $this->generateId( $name );
 
-$s = 'drop:function(ev,ui){var $item=$(this);var $list=$($item.find(\'a\').attr(\'href\')).find(\'.connectedSortable\');
+            $s = 'drop:function(ev,ui){var $item=$(this);var $list=$($item.find(\'a\').attr(\'href\')).find(\'.connectedSortable\');
                 ui.draggable.hide(\'slow\',function(){$' . $tname . '_tabs.tabs(\'select\',$' . $tname . '_tab_items.index($item));
                     if($list.attr(\'id\')==\'' . $tname . '_s2\'){$(this).find(\'input\').attr(\'disabled\',\'disabled\')}else{$(this).find(\'input\').removeAttr(\'disabled\')}
                     $(this).appendTo($list).show(\'slow\');

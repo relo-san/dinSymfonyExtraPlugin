@@ -13,7 +13,7 @@
  * 
  * @package     dinSymfonyExtraPlugin
  * @subpackage  lib.helper
- * @author      Nicolay N.Zyk <relo.san.pub@gmail.com>
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class DinAssetHelper
 {

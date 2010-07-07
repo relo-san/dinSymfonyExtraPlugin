@@ -11,13 +11,9 @@
 /**
  * Base url helper
  * 
- * @package     dinSymfonyExtraPlugin.lib.helper
- * @subpackage  DinUrlHelper
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       december 26, 2009
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.helper
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class DinUrlHelper
 {
@@ -29,8 +25,6 @@ class DinUrlHelper
      * @param   string  $internalUri    'module/action' or '@rule' of the action
      * @param   bool    $isAbsolute     Return absolute path? [optional]
      * @return  string  Generated url
-     * @author  relo_san
-     * @since   december 26, 2009
      */
     static public function url( $internalUri, $isAbsolute = false )
     {
@@ -47,8 +41,6 @@ class DinUrlHelper
      * @param   array|object    $params     Related object or array with route params [optional]
      * @param   bool            $isAbsolute Return absolute path? [optional]
      * @return  string  Generated url
-     * @author  relo_san
-     * @since   december 26, 2009
      */
     static public function urlr( $routeName, $params = array(), $isAbsolute = false )
     {
@@ -65,11 +57,11 @@ class DinUrlHelper
 
 
     /**
-     * urlf
+     * Returns a routed URL (for forms), based on route collection name
      * 
-     * @return  
-     * @author  relo_san
-     * @since   january 31, 2010
+     * @param   sfForm  $form
+     * @param   string  $routePrefix    Base route name in route collection or module name
+     * @return  string  Generated url
      */
     static public function urlf( sfForm $form, $routePrefix )
     {
@@ -95,8 +87,6 @@ class DinUrlHelper
      * @param   string  $internalUri    'module/action' or '@rule' of the action
      * @param   array   $options        Additional HTML compliant <a> tag parameters [optional]
      * @return  Generated XHTML <a> tag
-     * @author  relo_san
-     * @since   january 30, 2010
      */
     static public function link( $name, $internalUri, $options = array() )
     {
@@ -151,8 +141,6 @@ class DinUrlHelper
      * @param   array|object    $params     Related object or array with route params
      * @param   array           $options    Additional HTML compliant <a> tag parameters [optional]
      * @return  string          Generated XHTML <a> tag
-     * @author  relo_san
-     * @since   january 30, 2010
      */
     static public function linkr( $name, $routeName, $params, $options = array() )
     {
@@ -172,8 +160,6 @@ class DinUrlHelper
      * @param   mixed   $key        Identifier
      * @param   boolean $isPersFold Add personal folder to path
      * @return  string  Interleave path part
-     * @author  relo_san
-     * @since   april 5, 2010
      */
     static public function interleave( $key, $isPersFold = false )
     {
@@ -196,10 +182,8 @@ class DinUrlHelper
      * @param   array   $options    Source options
      * @param   string  $url        Url [optional]
      * @return  array   Converted options
-     * @author  relo_san
-     * @since   january 30, 2010
      */
-    static private function c2js( $options, $url = 'this.href' )
+    static protected function c2js( $options, $url = 'this.href' )
     {
 
         $confirm = isset( $options['confirm'])
@@ -261,10 +245,8 @@ class DinUrlHelper
      * @param   array   $popup  Popup attributes
      * @param   string  $url    Url [optional]
      * @return  string  Generated js code
-     * @author  relo_san
-     * @since   january 30, 2010
      */
-    static private function pjf( $popup, $url = '' )
+    static protected function pjf( $popup, $url = '' )
     {
 
         if ( !is_array( $popup ) )
@@ -286,10 +268,8 @@ class DinUrlHelper
      * 
      * @param   string  $method     Http method
      * @return  Generated js code
-     * @author  relo_san
-     * @since   january 30, 2010
      */
-    static private function mjf( $method )
+    static protected function mjf( $method )
     {
 
         $function = "var f=document.createElement('form');f.style.display='none';"
@@ -327,10 +307,8 @@ class DinUrlHelper
      * 
      * @param   string  $string Attributes in string
      * @return  array   Attributes
-     * @author  relo_san
-     * @since   january 30, 2010
      */
-    static private function parseAttr( $string )
+    static protected function parseAttr( $string )
     {
 
         return is_array( $string ) ? $string : sfToolkit::stringToArray( $string );

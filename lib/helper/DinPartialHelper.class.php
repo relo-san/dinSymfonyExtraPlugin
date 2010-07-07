@@ -11,23 +11,19 @@
 /**
  * Base partial helper
  * 
- * @package     dinSymfonyExtraPlugin.lib.helper
- * @subpackage  DinPartialHelper
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       january 31, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.helper
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class DinPartialHelper
 {
 
     /**
-     * get
+     * Get partial
      * 
+     * @param   string  $templateName   Partial name
+     * @param   array   $vars           Variables [optional]
      * @return  string  Partial result
-     * @author  relo_san
-     * @since   january 31, 2010
      */
     static public function get( $templateName, $vars = array() )
     {
@@ -63,8 +59,6 @@ class DinPartialHelper
      * @param   string  $componentName  Component name
      * @param   array   $vars           Variables [optional]
      * @return  string  Rendered component
-     * @author  relo_san
-     * @since   february 16, 2010
      */
     static public function component( $moduleName, $componentName, $vars = array() )
     {
@@ -95,11 +89,12 @@ class DinPartialHelper
     /**
      * Call component
      * 
+     * @param   string  $moduleName     Module name
+     * @param   string  $componentName  Component name
+     * @param   array   $vars           Variables
      * @return  mixed   Component controller result
-     * @author  relo_san
-     * @since   february 16, 2010
      */
-    static private function callComponent( $moduleName, $componentName, $vars )
+    static protected function callComponent( $moduleName, $componentName, $vars )
     {
 
         $context = sfContext::getInstance();

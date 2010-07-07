@@ -12,8 +12,8 @@
  * Response class for web interfaces
  * 
  * @package     dinSymfonyExtraPlugin
- * @subpackage  lib.config
- * @author      Nicolay N.Zyk <relo.san.pub@gmail.com>
+ * @subpackage  lib.response
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class dinWebResponse extends sfWebResponse
 {
@@ -25,7 +25,7 @@ class dinWebResponse extends sfWebResponse
 
 
     /**
-     * initialize
+     * Initialize
      * 
      * @param   sfEventDispatcher   $dispatcher
      * @param   array               $options    Response options [optional]
@@ -44,6 +44,10 @@ class dinWebResponse extends sfWebResponse
         if ( isset( $titleConfig['format'] ) )
         {
             $this->setTitleFormat( $titleConfig['format'] );
+        }
+        if ( isset( $titleConfig['delimiter'] ) )
+        {
+            $this->setTitleDelimiter( $titleConfig['delimiter'] );
         }
 
     } // dinWebResponse::initialize()

@@ -11,13 +11,9 @@
 /**
  * Base format helper
  * 
- * @package     dinSymfonyExtraPlugin.lib.helper
- * @subpackage  DinFormatHelper
- * @signed      5
- * @signer      relo_san
- * @author      relo_san [http://relo-san.com/]
- * @since       january 13, 2010
- * @version     SVN: $Id$
+ * @package     dinSymfonyExtraPlugin
+ * @subpackage  lib.helper
+ * @author      Nicolay N. Zyk <relo.san@gmail.com>
  */
 class DinFormatHelper
 {
@@ -42,8 +38,6 @@ class DinFormatHelper
      * @param   boolean $strip      Strip tags in source [optional]
      * @param   string  $encoding   Source encoding [optional]
      * @return  string  Cutted string
-     * @author  relo_san
-     * @since   january 13, 2010
      */
     static public function softCut( $string, $soft, $hard, $strategy = self::CUT_STRATEGY_MIN, $strip = true, $encoding = 'utf-8' )
     {
@@ -81,8 +75,6 @@ class DinFormatHelper
      * @param   string  $string     Source string
      * @param   integer $escaping   Escaping type [optional]
      * @return  string  Escaped string
-     * @author  relo_san
-     * @since   january 16, 2010
      */
     static public function escape( $string, $escaping = self::ESC_SPECIALCHARS )
     {
@@ -98,12 +90,12 @@ class DinFormatHelper
                     ? htmlspecialchars( $string, ENT_QUOTES, sfConfig::get( 'sf_charset' ) ) : $string;
                 break;
             case 3:
-                return str_replace( array( "\\", "\n", "\r", "\"", "'" ),
-                     array( "\\\\", "\\n", "\\r", "\\\"", "\\'" ), esc_entities( $string ) );
+                return str_replace( array( '\\', "\n", "\r", '"', "'" ),
+                     array( '\\\\', "\\n", "\\r", '\\"', "\\'" ), self::escape( $string, 1 ) );
                 break;
             case 4:
-                return str_replace( array( "\\", "\n", "\r", "\"", "'" ),
-                     array( "\\\\", "\\n", "\\r", "\\\"", "\\'" ), $string );
+                return str_replace( array( '\\', "\n", "\r", '"', "'" ),
+                     array( '\\\\', "\\n", "\\r", '\\"', "\\'" ), $string );
             default:
                 return $string;
         }
