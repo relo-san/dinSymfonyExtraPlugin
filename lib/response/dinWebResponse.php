@@ -2,7 +2,7 @@
 
 /*
  * This file is part of the dinSymfonyExtraPlugin package.
- * (c) DineCat, 2009-2010 http://dinecat.com/
+ * (c) DineCat, 2010 http://dinecat.com/
  * 
  * For the full copyright and license information, please view the LICENSE file,
  * that was distributed with this package, or see http://www.dinecat.com/din/license.html
@@ -36,20 +36,6 @@ class dinWebResponse extends sfWebResponse
 
         parent::initialize( $dispatcher, $options );
 
-        $titleConfig = sfConfig::get( 'app_title_params' );
-        if ( isset( $titleConfig['resource'] ) )
-        {
-            $this->setTitlePart( 'resource', $titleConfig['resource'], true );
-        }
-        if ( isset( $titleConfig['format'] ) )
-        {
-            $this->setTitleFormat( $titleConfig['format'] );
-        }
-        if ( isset( $titleConfig['delimiter'] ) )
-        {
-            $this->setTitleDelimiter( $titleConfig['delimiter'] );
-        }
-
     } // dinWebResponse::initialize()
 
 
@@ -73,6 +59,20 @@ class dinWebResponse extends sfWebResponse
      */
     public function buildTitle()
     {
+
+        $titleConfig = sfConfig::get( 'app_title_params' );
+        if ( isset( $titleConfig['resource'] ) )
+        {
+            $this->setTitlePart( 'resource', $titleConfig['resource'], true );
+        }
+        if ( isset( $titleConfig['format'] ) )
+        {
+            $this->setTitleFormat( $titleConfig['format'] );
+        }
+        if ( isset( $titleConfig['delimiter'] ) )
+        {
+            $this->setTitleDelimiter( $titleConfig['delimiter'] );
+        }
 
         $parts = array();
         foreach ( explode( '{del}', $this->titleFormat ) as $part )

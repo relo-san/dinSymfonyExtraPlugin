@@ -61,6 +61,20 @@ class DinTagHelper
 
 
     /**
+     * Create script tag
+     * 
+     * @param   string  $content    Tag content
+     * @return  string  Formatted js tag
+     */
+    static public function js( $content )
+    {
+
+        return self::ctag( 'script', self::jcdata( $content ), array( 'type' => 'text/javascript' ) );
+
+    } // DinTagHelper::js()
+
+
+    /**
      * Wraps the content in CDATA
      * 
      * @param   string  $content    Internal content
@@ -72,6 +86,21 @@ class DinTagHelper
         return '<![CDATA[' . $content . ']]>';
 
     } // DinTagHelper::cdata()
+
+
+    /**
+     * jcdata
+     * 
+     * @return  
+     * @author  relo_san
+     * @since   19.07.2010
+     */
+    static public function jcdata( $content )
+    {
+
+        return "\n//<![CDATA[\n" . $content . "\n//]]>\n";
+
+    } // DinTagHelper::jcdata()
 
 
     /**

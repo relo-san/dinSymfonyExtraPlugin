@@ -33,6 +33,7 @@ class dinRoutingConfigHandler extends sfRoutingConfigHandler
 
         $data = array();
         $modules = sfConfig::get( 'sf_enabled_modules' );
+        $dir = sfConfig::get( 'sf_app_module_dir' );
         foreach ( $this->parse( $configFiles ) as $name => $routeConfig )
         {
             $r = new ReflectionClass( $routeConfig[0] );
@@ -41,7 +42,8 @@ class dinRoutingConfigHandler extends sfRoutingConfigHandler
             if ( $routes instanceof sfRouteCollection )
             {
                 $collOptions = $routes->getOptions();
-                if ( isset( $collOptions['module'] ) && !in_array( $collOptions['module'], $modules ) )
+                if ( isset( $collOptions['module'] ) && !in_array( $collOptions['module'], $modules )
+                    && !is_readable( $dir . '/' . $collOptions['module'] ) )
                 {
                     continue;
                 }

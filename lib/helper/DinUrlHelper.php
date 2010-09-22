@@ -192,9 +192,10 @@ class DinUrlHelper
 
         if ( isset( $options['ajax'] ) )
         {
-            $action = $options['ajax'] . "Ajax('"
+            $action = $options['ajax'] . "Ajax("
+                . ( isset( $options['url'] ) && $options['url'] ? "'" . $options['href'] . "'" : "$(this)" ) . ",'"
                 . ( isset( $options['dest'] ) ? $options['dest'] : 'actionPartial' )
-                . "','" . $options['href'] . "'" . ( isset( $options['data'] ) ? ",'"
+                . "'" . ( isset( $options['data'] ) ? ",'"
                 . $options['data'] . "'" : '' ) . ");";
             if ( isset( $options['jconfirm'] ) )
             {

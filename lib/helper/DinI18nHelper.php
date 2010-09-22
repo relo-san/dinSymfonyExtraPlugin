@@ -30,12 +30,16 @@ class DinI18nHelper
 
         if ( sfConfig::get( 'sf_i18n' ) )
         {
-            $parsed = explode( '.', $source, 2 );
-            if ( !isset( $parsed[1] ) )
-            {
-                array_unshift( $parsed, 'messages' );
-            }
-            return sfContext::getInstance()->getI18N()->__( $parsed[1], $params, $parsed[0] );
+            //$parsed = explode( '.', $source, 2 );
+            //if ( !isset( $parsed[1] ) )
+            //{
+            //    array_unshift( $parsed, 'messages' );
+            //}
+            //if ( $parsed[0] === 'null' )
+            //{
+            //    return $parsed[1];
+            //}
+            return sfContext::getInstance()->getI18N()->__( $source, $params );
         }
 
         foreach ( (array) $params as $key => $value )
