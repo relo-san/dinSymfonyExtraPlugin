@@ -194,9 +194,10 @@ class DinUrlHelper
         {
             $action = $options['ajax'] . "Ajax("
                 . ( isset( $options['url'] ) && $options['url'] ? "'" . $options['href'] . "'" : "$(this)" ) . ",'"
-                . ( isset( $options['dest'] ) ? $options['dest'] : 'actionPartial' )
-                . "'" . ( isset( $options['data'] ) ? ",'"
-                . $options['data'] . "'" : '' ) . ");";
+                . ( isset( $options['dest'] ) ? $options['dest'] : 'actionPartial' ) . "'"
+                . ( isset( $options['data'] ) ? ",'" . $options['data'] . "'" : '' )
+                . ( isset( $options['load'] ) && $options['load'] ? ',true' : '' )
+                . ");";
             if ( isset( $options['jconfirm'] ) )
             {
                 $action = strtr( $options['jconfirm'], array( '%%action%%' => $action ) );

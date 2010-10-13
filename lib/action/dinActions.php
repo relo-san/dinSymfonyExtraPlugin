@@ -59,7 +59,7 @@ class dinActions extends sfActions
     public function prepareOutput( $partial, $template = null, $type = sfView::SUCCESS )
     {
 
-        if ( $this->getRequest()->isXmlHttpRequest() )
+        if ( $this->getRequest()->isXmlHttpRequest() || $this->getRequestParameter( '_is_ajax', null ) )
         {
             if ( substr( $partial, 0, 6 ) == '@text:' )
             {

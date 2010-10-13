@@ -72,12 +72,12 @@ class dinWidgetFormJqueryDate extends sfWidgetForm
 
         $widget = new sfWidgetFormInputText( array(), $attributes );
         return $widget->render( $name, $dateValue )
-            . '<script type="text/javascript">$(function(){$("#'
+            . '<script type="text/javascript">if(typeof jQuery!=\'undefined\'){$(function(){$("#'
             . $widget->generateId( $name, $dateValue ) . '").datepicker('
             . ( $this->getOption( 'config' ) ? '{' . $this->getOption( 'config' ) . '}' : '' )
             . ');});' . ( $this->getOption( 'lang' ) ? '$("#'
             . $widget->generateId( $name, $dateValue ) . '").datepicker($.datepicker.regional[\''
-            . $this->getOption( 'lang' ) . '\']);' : '' ) . '</script>';
+            . $this->getOption( 'lang' ) . '\']);' : '' ) . '}</script>';
 
     } // dinWidgetFormJqueryDate::render()
 
